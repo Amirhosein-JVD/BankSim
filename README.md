@@ -33,6 +33,7 @@ The command is run against the `BankSim.App` project since it contains the `Main
 
 ## Project Structure
 
+```
 BankSim/
 │
 ├── BankSim.App/ # Console application (entry point)
@@ -45,7 +46,7 @@ BankSim/
 │ └── (Repositories, Data Access, etc.)
 │
 └── BankSim.sln # Solution file
-
+```
 
 ## Requirements
 - .NET 9 SDK  
