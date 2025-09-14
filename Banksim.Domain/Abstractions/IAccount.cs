@@ -1,9 +1,7 @@
 ﻿public interface IAccount
 {
-    Guid Id { get; }
-    string Owner { get; init; }
-    Money Balance { get; set; }
+    Money Balance { get; }
     void Deposit (Money amount, TransactionType type, string description = "");
     void Withdraw (Money amount, TransactionType type, string description = "");
-    IReadOnlyList<Transaction> GetTransactions();
+    IEnumerable<Transaction> GetTransactions();
 }

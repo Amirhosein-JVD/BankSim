@@ -1,13 +1,34 @@
 ﻿public class Transaction
 {
-    public Guid TransactionId { get; } = Guid.NewGuid();
-    public DateTimeOffset OccurredAt { get; } = DateTimeOffset.Now;
-    public TransactionType Type { get; set; }
-    public Money Amount { get; init; }
-    public string Description { get; init; }
+    public Guid TransactionId { get; }
+    public DateTimeOffset OccurredAt { get; }
+    public TransactionType Type { get; }
+    public Money Amount { get; }
+    public string Description { get; }
+
+    public Transaction(TransactionType type, Money amount, string description)
+    {
+        TransactionId = Guid.NewGuid();
+        OccurredAt = DateTimeOffset.Now;
+        Type = type;
+        Amount = amount;
+        Description = description;
+    }
+
+    public Transaction(Money amount, string description, TransactionType type)
+    {
+        Amount = amount;
+        Description = description;
+        Type = type;
+    }
 
     public override string ToString()
     {
-        return $"[Transaction]:\nTransaction ID : {TransactionId}\nTransaction Time: {OccurredAt}\nTransaction Type: {Type}\nAmount: {Amount.ToString()}\nDescription: {Description}";
+        return $"[Transaction]:\n" +
+               $"Transaction ID : {TransactionId}\n" +
+               $"Transaction Time: {OccurredAt}\n" +
+               $"Transaction Type: {Type}\n" +
+               $"Amount: {Amount}\n" +
+               $"Description: {Description}";
     }
 }

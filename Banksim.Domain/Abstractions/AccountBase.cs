@@ -3,27 +3,31 @@ public abstract class AccountBase : IAccount
 {
     protected List<Transaction> _transactions = new List<Transaction>();
 
-    public Guid Id { get;  } = Guid.NewGuid();
+    public readonly Guid Id;
+    public readonly string Owner;
 
+    public Money Balance { get; private set; }
 
-    public Money Balance { get; set; }
-
-    public string Owner { get; init; }
+    public AccountBase(string owner)
+    {
+        Id = Guid.NewGuid();
+        Owner = owner;
+    }
 
     public void Deposit(Money amount, TransactionType type, string description = "")
     {
         Balance = Balance.Add(amount);
-        _transactions.Add(new Transaction { Amount= amount, Description= description, Type= type});
+        _transactions.Add(new Transaction(amount, description, type));
     }
    
     public void Withdraw(Money amount, TransactionType type, string description = "")
     {
         Balance = Balance.Subtract(amount);
-        _transactions.Add(new Transaction { Amount = amount, Description = description, Type = type });
+        _transactions.Add(new Transaction(amount, description, type));
     }
    
 
-    public IReadOnlyList<Transaction> GetTransactions()
+    public IEnumerable<Transaction> GetTransactions()
     {
         return this._transactions.AsReadOnly();
     }

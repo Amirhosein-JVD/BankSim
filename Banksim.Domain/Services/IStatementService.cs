@@ -1,8 +1,7 @@
 ﻿public interface IStatementService
 {
-    void FilterType<T>(IReadOnlyList<Transaction> transactions, TransactionType type);
-    void FilterTime(IReadOnlyList<Transaction> transaction, DateTimeOffset startTime, DateTimeOffset endTime);
-    void FilterAmount(IReadOnlyList<Transaction> transaction, Money amount);
-
+    IEnumerable<Transaction> FilterType(IEnumerable<Transaction> transactions, TransactionType type);
+    IEnumerable<Transaction> FilterTime(IEnumerable<Transaction> transactions, DateTimeOffset startTime, DateTimeOffset endTime);
+    IEnumerable<Transaction> FilterAmount(IEnumerable<Transaction> transactions, Money lowAmount, Money highAmount);
 
 }
