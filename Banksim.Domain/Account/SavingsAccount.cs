@@ -3,7 +3,7 @@
     public SavingsAccount(string owner, Money initialBalance) : base(owner, initialBalance) { }
     public override void ProtectedWithdrawal(Money amount, TransactionType type, string description= "")
     {
-        if (Balance.Amount - amount.Amount <= 0)
+        if (Balance.Amount - amount.Amount <= 5)
         {
             throw new InsufficientFundsException();
         }

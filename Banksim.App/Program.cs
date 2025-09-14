@@ -1,30 +1,46 @@
-﻿﻿public class Program
+﻿
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+
+
+
+public class Program
 {
+
     public static void Main(string[] args)
     {
-        AccountBase account = new CheckingAccount { Owner = "Hasan", Balance = new Money { Amount = 200, Currency = "USD" } };
-        AccountBase account1 = new CheckingAccount { Owner = "Akbar", Balance = new Money { Amount = 300, Currency = "USD" } };
-
-        TransferService transferService = new TransferService();
-
-        transferService.Transfer(account, account1, new Money { Amount = 100, Currency = "USD" }, "This is a gift!");
-
-        //account.Deposit(new Money { Amount = 200, Currency = "USD" }, TransactionType.Deposit, "");
-
-        foreach (Transaction transaction in account.GetTransactions())
+        var host = Host.CreateDefaultBuilder(args).ConfigureServices(services =>
         {
-            //Console.WriteLine(account.ToString());
-            Console.WriteLine(transaction.ToString());
-            Console.WriteLine("\n------------------------------------------------------------------------\n");
-        }
-        foreach (Transaction transaction in account1.GetTransactions())
+            services.AddSingleton<IStatementService, StatementService>();
+            services.AddSingleton<ITransferService, TransferService>();
+            services.AddSingleton<IAccountStore, InMemoryAccountStore>();
+
+        }).Build();
+
+        using var scope = host.Services.CreateScope();
+        var sp = scope.ServiceProvider;
+
+        var transfer = sp.GetRequiredService<ITransferService>();
+        var statement = sp.GetRequiredService<IStatementService>();
+        var accountStore = sp.GetRequiredService<IAccountStore>();
+
+        AccountBase alice = new CheckingAccount("Alice", new Money { Amount = 1200M, Currency = MoneyType.USD });
+        AccountBase bob = new CheckingAccount("Bob", new Money { Amount = 700M, Currency = MoneyType.USD });
+
+        accountStore.Add(alice);
+        accountStore.Add(bob);
+
+
+        foreach (var item in accountStore.GetAll())
         {
-            //Console.WriteLine(account.ToString());
-            Console.WriteLine(transaction.ToString());
-            Console.WriteLine("\n------------------------------------------------------------------------\n");
+            Console.WriteLine(item);
+            Console.WriteLine("\n--------------------------------------------------------------------\n");
         }
-        Console.WriteLine(account1.Balance);
-        Console.WriteLine(account.Balance);
-        //new Money { Amount = 200, Currency = "USD" }.Subtract(new Money { Amount = 300, Currency = "USD" });
+
+        //alice.Deposit(new Money { Amount = 900M, Currency = MoneyType.USD }, TransactionType.Deposit, "seed");
+        //transfer.Transfer(alice, bob, new Money { Amount = 200M, Currency = MoneyType.USD }, "gift");
+        //Console.WriteLine(alice.ToString());
+        //Console.WriteLine(bob.ToString());
+
     }
 }
