@@ -1,0 +1,29 @@
+<Project>
+    <PropertyGroup>
+        <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+        <TargetFramework>net9.0</TargetFramework>
+        
+        <!-- Compiler Settings -->
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <LangVersion>latest</LangVersion>
+        
+        <!-- Build & Output -->
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+        <WarningsAsErrors>CS1591</WarningsAsErrors>
+        <Deterministic>true</Deterministic>
+        <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        
+        <!-- Solution Specifications -->
+        <Authors>Amirhosein Javadpour; Aydin Mohandesi</Authors>
+        <Company>Sahra</Company>
+        <RepositoryType>git</RepositoryType>
+    </PropertyGroup>
+    
+    <!-- NuGet package versions -->
+    <ItemGroup>
+        <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="9.0.9" />
+        <PackageVersion Include="Microsoft.Extensions.Hosting" Version="9.0.9" />
+    </ItemGroup>
+</Project>

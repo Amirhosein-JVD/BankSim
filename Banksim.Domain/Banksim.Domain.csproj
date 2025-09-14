@@ -1,9 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
+    <PropertyGroup>
+        <RootNamespace>BankSim.Domain</RootNamespace>
+        <PackageId>BankSim.Domain</PackageId>
+        <Version>1.0.0</Version>
+        <Description>The domain models and core logic for the BankSim application.</Description>
+        <PackageTags>common;domain;models;banksim</PackageTags>
+    </PropertyGroup>
 
 </Project>

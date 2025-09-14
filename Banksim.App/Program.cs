@@ -1,21 +1,32 @@
-﻿
+﻿using BankSim.Domain.Abstractions;
+using BankSim.Domain.Account;
+using BankSim.Domain.Services;
+using BankSim.Domain.ValueObjects;
+using BankSim.Infrastructure.Persistence;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
+namespace BankSim.App;
 
-
-public class Program
+/// <summary>
+/// The main entry point for the banking simulation application.
+/// </summary>
+public static class Program
 {
-
+    /// <summary>
+    /// The main method that configures and runs the banking simulation application.
+    /// </summary>
+    /// <param name="args">The command-line arguments.</param>
     public static void Main(string[] args)
     {
-        var host = Host.CreateDefaultBuilder(args).ConfigureServices(services =>
-        {
-            services.AddSingleton<IStatementService, StatementService>();
-            services.AddSingleton<ITransferService, TransferService>();
-            services.AddSingleton<IAccountStore, InMemoryAccountStore>();
-
-        }).Build();
+        var host = Host.CreateDefaultBuilder(args)
+            .ConfigureServices(services =>
+            {
+                services.AddScoped<IStatementService, StatementService>();
+                services.AddScoped<ITransferService, TransferService>();
+                services.AddSingleton<IAccountStore, InMemoryAccountStore>();
+            })
+            .Build();
 
         using var scope = host.Services.CreateScope();
         var sp = scope.ServiceProvider;
@@ -24,8 +35,8 @@ public class Program
         var statement = sp.GetRequiredService<IStatementService>();
         var accountStore = sp.GetRequiredService<IAccountStore>();
 
-        AccountBase alice = new CheckingAccount("Alice", new Money { Amount = 1200M, Currency = MoneyType.USD });
-        AccountBase bob = new CheckingAccount("Bob", new Money { Amount = 700M, Currency = MoneyType.USD });
+        IAccount alice = new CheckingAccount("Alice", new Money(1200m, Currency.USD));
+        IAccount bob   = new CheckingAccount("Bob",   new Money( 700m, Currency.USD));
 
         accountStore.Add(alice);
         accountStore.Add(bob);
@@ -37,10 +48,10 @@ public class Program
             Console.WriteLine("\n--------------------------------------------------------------------\n");
         }
 
-        //alice.Deposit(new Money { Amount = 900M, Currency = MoneyType.USD }, TransactionType.Deposit, "seed");
-        //transfer.Transfer(alice, bob, new Money { Amount = 200M, Currency = MoneyType.USD }, "gift");
-        //Console.WriteLine(alice.ToString());
-        //Console.WriteLine(bob.ToString());
-
+        // Example (updated signatures):
+        // alice.Deposit(new Money(900m, MoneyType.USD), "seed");
+        // transfer.Transfer(alice, bob, new Money(200m, MoneyType.USD), "gift");
+        // Console.WriteLine(alice);
+        // Console.WriteLine(bob);
     }
 }
