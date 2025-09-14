@@ -1,4 +1,4 @@
-﻿namespace BankSim.Domain.Transaction.TransactionEnums;
+﻿namespace BankSim.Domain.Transaction;
 
 /// <summary>
 /// The types of transactions that can occur in a bank account.

@@ -1,5 +1,4 @@
-﻿using BankSim.Domain.Transaction.TransactionEnums;
-using BankSim.Domain.ValueObjects;
+﻿using BankSim.Domain.ValueObjects;
 
 namespace BankSim.Domain.Transaction;
 
