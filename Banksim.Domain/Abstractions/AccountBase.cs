@@ -1,43 +1,70 @@
-﻿
+﻿using BankSim.Domain.Transaction;
+using BankSim.Domain.ValueObjects;
+
+namespace BankSim.Domain.Abstractions;
+
+/// <summary>
+/// The base class for different types of bank accounts, providing common functionality such as deposit,
+/// </summary>
 public abstract class AccountBase : IAccount
 {
-    public List<Transaction> _transactions = new List<Transaction>();
+    /// <summary>
+    /// The list of transactions associated with the account.
+    /// </summary>
+    protected readonly List<Transaction.Transaction> Transactions = [];
 
-    public readonly Guid Id;
-    public readonly string Owner;
+    /// <summary>
+    /// The unique identifier for the account.
+    /// </summary>
+    public Guid Id { get; }
 
+    /// <summary>
+    /// The owner of the account.
+    /// </summary>
+    public string Owner { get; }
+
+    /// <summary>
+    /// The current balance of the account.
+    /// </summary>
     public Money Balance { get; protected set; }
 
-    public AccountBase(string owner, Money initialBalance)
+    /// <summary>
+    /// The constructor for the AccountBase class.
+    /// </summary>
+    /// <param name="owner">The owner of the account.</param>
+    /// <param name="initialBalance">The initial balance of the account.</param>
+    protected AccountBase(string owner, Money initialBalance)
     {
         Id = Guid.NewGuid();
         Owner = owner;
         Balance = initialBalance;
     }
 
-    public void Deposit(Money amount, TransactionType type, string description = "")
+    /// <inheritdoc />
+    public void Deposit(Money amount, string description = "")
     {
         Balance = Balance.Add(amount);
-        _transactions.Add(new Transaction(amount, description, type));
-    }
-   
-    public void Withdraw(Money amount, TransactionType type, string description = "")
-    {
-        Balance = Balance.Subtract(amount);
-        _transactions.Add(new Transaction(amount, description, type));
-    }
-   
-
-    public IEnumerable<Transaction> GetTransactions()
-    {
-        return this._transactions.AsReadOnly();
+        Transactions.Add(new Transaction.Transaction(amount, description, TransactionType.Deposit));
     }
 
+    /// <inheritdoc />
+    public void Withdraw(Money amount, string description = "")
+    {
+        ProtectedWithdrawal(amount, description);
+        Transactions.Add(new Transaction.Transaction(amount, description, TransactionType.Withdrawal));
+    }
+
+    /// <inheritdoc />
+    public IReadOnlyList<Transaction.Transaction> GetTransactions() => Transactions.AsReadOnly();
+
+    /// <inheritdoc />
     public override string ToString()
-    {
-        return $"[Account]:\nAccount Id: {Id}\nAccount owner: {Owner}\nAccount Balance: {Balance}, ";
-    }
+        => $"Account Id: {Id}\nOwner: {Owner}\nBalance: {Balance}";
 
-    public abstract void ProtectedWithdrawal(Money amount, TransactionType type, string description= "");
-
+    /// <summary>
+    /// The protected method to handle the withdrawal logic, to be implemented by derived classes.
+    /// </summary>
+    /// <param name="amount">The amount of money to withdraw.</param>
+    /// <param name="description">The description or memo associated with the transaction.</param>
+    protected abstract void ProtectedWithdrawal(Money amount, string description = "");
 }
