@@ -9,6 +9,11 @@ namespace BankSim.Domain.Abstractions;
 public interface IAccount
 {
     /// <summary>
+    /// The unique identifier for the account.
+    /// </summary>
+    Guid Id { get; }
+    
+    /// <summary>
     /// The current balance of the account.
     /// </summary>
     Money Balance { get; }

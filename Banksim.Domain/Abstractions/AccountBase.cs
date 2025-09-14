@@ -14,14 +14,12 @@ public abstract class AccountBase : IAccount
     protected readonly List<Transaction.Transaction> Transactions = [];
 
     /// <summary>
-    /// The unique identifier for the account.
-    /// </summary>
-    public Guid Id { get; }
-
-    /// <summary>
     /// The owner of the account.
     /// </summary>
     public string Owner { get; }
+
+    /// <inheritdoc />
+    public Guid Id { get; }
 
     /// <summary>
     /// The current balance of the account.
