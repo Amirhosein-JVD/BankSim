@@ -2,7 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BankSim.Domain\Banksim.Domain.csproj" />
-    <ProjectReference Include="..\Banksim.Infrastructure\Banksim.Infrastructure.csproj" />
+    <ProjectReference Include="..\BankSim.Infrastructure\Banksim.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>
