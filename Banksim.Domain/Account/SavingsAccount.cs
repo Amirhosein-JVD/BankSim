@@ -1,4 +1,5 @@
 ﻿using BankSim.Domain.Abstractions;
+using BankSim.Domain.Exceptions;
 using BankSim.Domain.ValueObjects;
 
 namespace BankSim.Domain.Account;
