@@ -1,6 +1,4 @@
-﻿using BankSim.Domain.ValueObjects.MoneyEnums;
-
-namespace BankSim.Domain.ValueObjects;
+﻿namespace BankSim.Domain.ValueObjects;
 
 /// <summary>
 /// The Money value object represents a monetary amount in a specific currency.

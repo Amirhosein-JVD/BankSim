@@ -1,4 +1,4 @@
-namespace BankSim.Domain.ValueObjects.MoneyEnums;
+namespace BankSim.Domain.ValueObjects;
 
 /// <summary>
 /// The enumeration of supported currency types.
