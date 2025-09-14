@@ -1,28 +1,33 @@
-﻿
+﻿using BankSim.Domain.Abstractions;
+
+namespace BankSim.Infrastructure.Persistence;
+
+/// <summary>
+/// The InMemoryAccountStore class provides an in-memory implementation of the IAccountStore interface.
+/// </summary>
 public class InMemoryAccountStore : IAccountStore
 {
-    private readonly Dictionary<Guid, AccountBase> _accounts = new();
-    public void Add(AccountBase account)
+    private readonly Dictionary<Guid, IAccount> _accounts = new();
+
+    /// <summary>
+    /// The Add method adds a new account to the store.
+    /// </summary>
+    /// <param name="account">The account to be added.</param>
+    /// <exception cref="InvalidOperationException">Thrown when an account with the same ID already exists.</exception>
+    public void Add(IAccount account)
     {
-        if (_accounts.ContainsKey(account.Id))
-        {
-            throw new InvalidOperationException("Account alredy exist!");
-        }
-        _accounts[account.Id] = account;
-       
+        if (!_accounts.TryAdd(account.Id, account))
+            throw new InvalidOperationException("Account already exists.");
     }
 
-    public AccountBase Get(Guid id)
+    /// <inheritdoc />
+    public IAccount Get(Guid id)
     {
         if (!_accounts.TryGetValue(id, out var acc))
-        {
-            throw new KeyNotFoundException($"Account {id} not found!");
-        }
+            throw new KeyNotFoundException($"Account {id} not found.");
         return acc;
     }
 
-    public IReadOnlyList<AccountBase> GetAll()
-    {
-       return _accounts.Values.ToList();
-    }
+    /// <inheritdoc />
+    public IReadOnlyList<IAccount> GetAll() => _accounts.Values.ToList();
 }
