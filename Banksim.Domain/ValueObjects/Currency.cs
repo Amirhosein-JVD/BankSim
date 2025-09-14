@@ -3,7 +3,7 @@ namespace BankSim.Domain.ValueObjects;
 /// <summary>
 /// The enumeration of supported currency types.
 /// </summary>
-public enum MoneyType
+public enum Currency
 {
     /// <summary>
     /// The Iranian Rial currency.

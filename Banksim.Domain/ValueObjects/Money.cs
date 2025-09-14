@@ -12,9 +12,9 @@ public readonly record struct Money
     public decimal Amount { get; init; }
 
     /// <summary>
-    /// The currency type of the monetary amount. see <see cref="MoneyType"/>.
+    /// The currency type of the monetary amount. see <see cref="ValueObjects.Currency"/>.
     /// </summary>
-    public MoneyType Currency { get; init; }
+    public Currency Currency { get; init; }
 
     /// <summary>
     /// The constructor for the Money value object.
@@ -22,7 +22,7 @@ public readonly record struct Money
     /// <param name="amount">The monetary amount, which must be non-negative.</param>
     /// <param name="currency">The currency type of the monetary amount.</param>
     /// <exception cref="InvalidMoneyException">Thrown when the amount is negative.</exception>
-    public Money(decimal amount, MoneyType currency)
+    public Money(decimal amount, Currency currency)
     {
         if (amount < 0)
             throw new InvalidMoneyException();
