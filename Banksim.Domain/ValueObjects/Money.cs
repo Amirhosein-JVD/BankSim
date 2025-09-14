@@ -50,12 +50,12 @@ public readonly record struct Money
     /// </summary>
     /// <param name="other">The other Money instance to subtract.</param>
     /// <returns>A new Money instance representing the difference.</returns>
-    /// <exception cref="InvalidMoneyException">Thrown when the result would be negative.</exception>
+    /// <exception cref="InsufficientFundsException">Thrown when the result would be negative.</exception>
     public Money Subtract(Money other)
     {
         ValidateSameCurrency(other);
         if (Amount < other.Amount)
-            throw new InvalidMoneyException();
+            throw new InsufficientFundsException();
         return new Money(Amount - other.Amount, Currency);
     }
 
@@ -77,5 +77,5 @@ public readonly record struct Money
     }
 
     /// <inheritdoc />
-    public override string ToString() => $"[Money] Amount: {Amount}, Currency: {Currency}";
+    public override string ToString() => $"{Amount:0.##} {Currency}";
 }
