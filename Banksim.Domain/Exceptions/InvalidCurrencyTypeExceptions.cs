@@ -8,7 +8,8 @@ public class InvalidCurrencyTypeException : DomainException
     /// <summary>
     /// The constructor for the InvalidCurrencyTypeException class.
     /// </summary>
-    public InvalidCurrencyTypeException() : base("You must choose  'IRR' or 'USD'.")
+    public InvalidCurrencyTypeException()
+        : base("Invalid currency type. Supported values: IRR, USD.")
     {
     }
 }

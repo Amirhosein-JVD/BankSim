@@ -12,4 +12,13 @@ public class DomainException : Exception
     public DomainException(string message) : base(message)
     {
     }
+
+    /// <summary>
+    /// The constructor for the DomainException class with an inner exception.
+    /// </summary>
+    /// <param name="message">The error message.</param>
+    /// <param name="inner">The inner exception.</param>
+    public DomainException(string message, Exception inner) : base(message, inner)
+    {
+    }
 }

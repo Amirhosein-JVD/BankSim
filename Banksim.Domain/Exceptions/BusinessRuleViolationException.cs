@@ -8,7 +8,8 @@ public class BusinessRuleViolationException : DomainException
     /// <summary>
     /// The constructor for the BusinessRuleViolationException class.
     /// </summary>
-    public BusinessRuleViolationException() : base("You must have 100 balance so you can't do this operation.")
+    public BusinessRuleViolationException()
+        : base("Balance cannot fall below the required minimum (100).")
     {
     }
 }

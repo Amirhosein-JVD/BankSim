@@ -8,7 +8,7 @@ public class InsufficientFundsException : DomainException
     /// <summary>
     /// The constructor for the InsufficientFundsException class.
     /// </summary>
-    public InsufficientFundsException() : base("Your Balance is'nt enough!")
+    public InsufficientFundsException() : base("Insufficient funds to complete the operation.")
     {
     }
 }
