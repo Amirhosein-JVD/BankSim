@@ -1,4 +1,4 @@
-﻿public class Transaction
+﻿public sealed record Transaction
 {
     public Guid TransactionId { get; }
     public DateTimeOffset OccurredAt { get; }
@@ -6,20 +6,13 @@
     public Money Amount { get; }
     public string Description { get; }
 
-    public Transaction(TransactionType type, Money amount, string description)
-    {
-        TransactionId = Guid.NewGuid();
-        OccurredAt = DateTimeOffset.Now;
-        Type = type;
-        Amount = amount;
-        Description = description;
-    }
-
     public Transaction(Money amount, string description, TransactionType type)
     {
+        TransactionId = Guid.NewGuid();
+        OccurredAt = DateTimeOffset.UtcNow;
+        Type = type;
         Amount = amount;
         Description = description;
-        Type = type;
     }
 
     public override string ToString()

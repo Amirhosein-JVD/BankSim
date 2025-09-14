@@ -1,72 +1,42 @@
-﻿public class Money
+﻿public readonly record struct Money
 {
-    private decimal _amount;
-    private string? _currency;
-    public decimal Amount
+    public decimal Amount { get; init; }
+    public MoneyType Currency { get; init; }
+
+    public Money(decimal amount, MoneyType currency)
     {
-        get { return _amount; }
-        set {
-            if (value >= 0)
-            {
-                _amount = value;
-            }
-            else
-            {
-                throw new InvalidMoneyException();
-            }
-        }
+        if (amount < 0)
+            throw new InvalidMoneyException();
+
+        Currency = currency;
+        Amount = amount;
     }
 
-    public string Currency
+    public Money Add(Money other)
     {
-        get => _currency;
-
-        set
-        {
-            _currency = value switch
-            {
-                "IRR" => value,
-                "USD" => value,
-                _ => throw new InvalidCurrencyTypeException(),
-            };
-        }
+        ValidateSameCurrency(other);
+        return new Money(Amount + other.Amount, Currency);
     }
 
-    public Money Add(Money asset)
+    public Money Subtract(Money other)
     {
-        if (this.Currency != asset.Currency)
-        {
+        ValidateSameCurrency(other);
+        if (Amount < other.Amount)
+            throw new InvalidMoneyException();
+        return new Money(Amount - other.Amount, Currency);
+    }
+
+    public bool IsGreaterOrEqual(Money other)
+    {
+        ValidateSameCurrency(other);
+        return Amount >= other.Amount;
+    }
+
+    private void ValidateSameCurrency(Money other)
+    {
+        if (Currency != other.Currency)
             throw new InvalidCurrencyOperationException();
-        }
-        return new Money { Amount = Amount + asset.Amount, Currency = Currency };
     }
 
-    public Money Subtract(Money asset)
-    {
-        if (this.Currency != asset.Currency)
-        {
-            throw new InvalidCurrencyOperationException();
-        }
-
-        if(!this.IsGreaterOrEqual(asset))
-        {
-            throw new NegativeMoneyException();
-        }
-
-        return new Money { Amount = Amount - asset.Amount, Currency =  Currency };
-    }
-
-    public bool IsGreaterOrEqual(Money asset)
-    {
-        if (this.Currency != asset.Currency)
-        {
-            throw new InvalidCurrencyOperationException();
-        }
-        return this.Amount >= asset.Amount;
-    }
-
-    public override string ToString()
-    {
-        return $"[Money] Amount: {Amount},  Currency: {Currency}";
-    }
+    public override string ToString() => $"[Money] Amount: {Amount}, Currency: {Currency}";
 }
