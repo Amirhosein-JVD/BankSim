@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using BankSim.Domain.Services;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace BankSim.App.Modules;
 
@@ -14,7 +15,8 @@ public static class StatementsModule
     /// <returns>The updated service collection.</returns>
     public static IServiceCollection AddStatementsModule(this IServiceCollection services)
     {
-        // Register statement-related services here if needed in future
-        return services;
+            services.AddScoped<IStatementService, StatementService>();
+            services.AddScoped<ITransferService, TransferService>();
+            return services;
     }
 }

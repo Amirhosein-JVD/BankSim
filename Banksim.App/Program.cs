@@ -1,4 +1,5 @@
-﻿using BankSim.Domain.Abstractions;
+﻿using BankSim.App.Modules;
+using BankSim.Domain.Abstractions;
 using BankSim.Domain.Account;
 using BankSim.Domain.Services;
 using BankSim.Domain.ValueObjects;
@@ -19,14 +20,14 @@ public static class Program
     /// <param name="args">The command-line arguments.</param>
     public static void Main(string[] args)
     {
-        var host = Host.CreateDefaultBuilder(args)
+        var builder = Host.CreateDefaultBuilder(args)
             .ConfigureServices(services =>
             {
-                services.AddScoped<IStatementService, StatementService>();
-                services.AddScoped<ITransferService, TransferService>();
-                services.AddSingleton<IAccountStore, InMemoryAccountStore>();
-            })
-            .Build();
+                services.AddStatementsModule();
+                services.AddAccountsModule();
+            });
+
+        var host = builder.Build();
 
         using var scope = host.Services.CreateScope();
         var sp = scope.ServiceProvider;
