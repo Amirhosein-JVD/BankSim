@@ -8,6 +8,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<IStatementService, StatementService>();
 builder.Services.AddSingleton<IAccountStore, InMemoryAccountStore>();
+builder.Services.AddSingleton<ITransferService, TransferService>();
+builder.Services.AddControllers();
 
 var app = builder.Build();
 
@@ -20,22 +22,6 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-app.MapGet("/weatherforecast", () =>
-{
-    return Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast(
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            "Sample Summary"
-        )
-    ).ToArray();
-});
-
-
+app.MapControllers();
 
 app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}

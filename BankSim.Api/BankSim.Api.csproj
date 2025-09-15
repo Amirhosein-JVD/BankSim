@@ -16,9 +16,4 @@
     <ProjectReference Include="..\BankSim.Infrastructure\BankSim.Infrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Model\" />
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
 </Project>
