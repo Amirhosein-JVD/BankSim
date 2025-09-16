@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 
-namespace BankSim.Api.Models
+namespace BankSim.Api.Models.Requestes
 {
     /// <summary>
     /// Transfer DTO
