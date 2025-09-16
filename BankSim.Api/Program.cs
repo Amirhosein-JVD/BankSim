@@ -1,3 +1,4 @@
+using BankSim.Api.Middlewares;
 using BankSim.Domain.Services;
 using BankSim.Infrastructure.Persistence;
 
@@ -21,6 +22,9 @@ if (app.Environment.IsDevelopment())
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "Values API V1");
     });
 }
+
+app.UseMiddleware<AccountMiddleware>();
+app.UseMiddleware<TransferLogMiddleware>();
 
 app.MapControllers();
 

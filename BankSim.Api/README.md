@@ -77,6 +77,52 @@
             <param name="dto">The dto.</param>
             <returns></returns>
         </member>
+        <member name="T:BankSim.Api.Middlewares.AccountMiddleware">
+            <summary>
+            Transfer log middleware
+            </summary>
+        </member>
+        <member name="F:BankSim.Api.Middlewares.AccountMiddleware._next">
+            <summary>
+            The next
+            </summary>
+        </member>
+        <member name="M:BankSim.Api.Middlewares.AccountMiddleware.#ctor(Microsoft.AspNetCore.Http.RequestDelegate)">
+            <summary>
+            Initializes a new instance of the <see cref="T:BankSim.Api.Middlewares.AccountMiddleware"/> class.
+            </summary>
+            <param name="next">The next.</param>
+        </member>
+        <member name="M:BankSim.Api.Middlewares.AccountMiddleware.InvokeAsync(Microsoft.AspNetCore.Http.HttpContext)">
+            <summary>
+            Invokes the asynchronous.
+            </summary>
+            <param name="context">The context.</param>
+            <returns></returns>
+        </member>
+        <member name="T:BankSim.Api.Middlewares.TransferLogMiddleware">
+            <summary>
+            Transfer log middleware
+            </summary>
+        </member>
+        <member name="F:BankSim.Api.Middlewares.TransferLogMiddleware._next">
+            <summary>
+            The next
+            </summary>
+        </member>
+        <member name="M:BankSim.Api.Middlewares.TransferLogMiddleware.#ctor(Microsoft.AspNetCore.Http.RequestDelegate)">
+            <summary>
+            Initializes a new instance of the <see cref="T:BankSim.Api.Middlewares.TransferLogMiddleware"/> class.
+            </summary>
+            <param name="next">The next.</param>
+        </member>
+        <member name="M:BankSim.Api.Middlewares.TransferLogMiddleware.InvokeAsync(Microsoft.AspNetCore.Http.HttpContext)">
+            <summary>
+            Invokes the asynchronous.
+            </summary>
+            <param name="context">The context.</param>
+            <returns></returns>
+        </member>
         <member name="T:BankSim.Api.Models.AccountDto">
             <summary>
             The Account DTO
@@ -88,7 +134,7 @@
             </summary>
             <value>
             The owner.
-            </value>
+            </value>res
         </member>
         <member name="P:BankSim.Api.Models.AccountDto.Balance">
             <summary>
