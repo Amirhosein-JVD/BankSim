@@ -36,17 +36,33 @@
             <summary>
             Gets the account by identifier.
             </summary>
-            <param name="Id">The identifier.</param>
+            <param name="id">The identifier.</param>
             <returns></returns>
             <exception cref="T:System.NotImplementedException"></exception>
         </member>
-        <member name="M:BankSim.Api.Controllers.AccountsController.AddAccount(BankSim.Api.Models.AccountDto,System.String)">
+        <member name="M:BankSim.Api.Controllers.AccountsController.AddAccount(BankSim.Api.Models.AccountDto,BankSim.Api.Controllers.AccountTypesEnum)">
             <summary>
             Adds the account.
             </summary>
             <param name="dto">The dto.</param>
-            <param name="AccountType"></param>
-            <exception cref="T:System.NotImplementedException"></exception>
+            <param name="accountType">Type of the account.</param>
+            <returns></returns>
+            <exception cref="T:BankSim.Domain.Exceptions.DomainException">Acconut not founded!</exception>
+        </member>
+        <member name="T:BankSim.Api.Controllers.AccountTypesEnum">
+            <summary>
+            Account Types Enum
+            </summary>
+        </member>
+        <member name="F:BankSim.Api.Controllers.AccountTypesEnum.CheckingAccount">
+            <summary>
+            The checking account
+            </summary>
+        </member>
+        <member name="F:BankSim.Api.Controllers.AccountTypesEnum.SavingAccount">
+            <summary>
+            The saving account
+            </summary>
         </member>
         <member name="T:BankSim.Api.Controllers.TransferController">
             <summary>

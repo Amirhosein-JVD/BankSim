@@ -1,7 +1,5 @@
 ﻿using BankSim.Api.Models;
-using BankSim.Domain.Abstractions;
 using BankSim.Domain.Services;
-using BankSim.Domain.ValueObjects;
 using BankSim.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Mvc;
 
@@ -42,12 +40,31 @@ namespace BankSim.Api.Controllers
         /// <param name="dto">The dto.</param>
         /// <returns></returns>
         [HttpPost]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)] 
+        [ProducesResponseType(404)] 
+        [ProducesResponseType(500)] 
         public IActionResult Transfer(TransferDto dto)
         {
-            var _accountFrom = _accountStore.Get(dto.From);
-            var _accountTo = _accountStore.Get(dto.To);
-            _transferService.Transfer(_accountFrom, _accountTo, dto.Amount, dto.Description);
-            return Ok();
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            try
+            {
+                var accountFrom = _accountStore.Get(dto.From);
+                var accountTo = _accountStore.Get(dto.To);
+
+                if (accountFrom == null || accountTo == null)
+                    return NotFound("Account not found");
+
+                _transferService.Transfer(accountFrom, accountTo, dto.Amount, dto.Description);
+
+                return Ok();
+            }
+            catch
+            {
+                return StatusCode(500, "Internal server error");
+            }
         }
     }
 }
