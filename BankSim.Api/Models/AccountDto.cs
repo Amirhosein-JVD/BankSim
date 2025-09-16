@@ -2,6 +2,7 @@
 using BankSim.Domain.Account;
 using BankSim.Domain.Exceptions;
 using BankSim.Domain.ValueObjects;
+using System.ComponentModel.DataAnnotations;
 
 namespace BankSim.Api.Models
 {
@@ -17,6 +18,8 @@ namespace BankSim.Api.Models
         /// <value>
         /// The owner.
         /// </value>res
+
+        [Required]
         public required string Owner { get; set; }
 
         /// <summary>

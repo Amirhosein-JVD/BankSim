@@ -17,6 +17,8 @@ namespace BankSim.Api.Models
         /// <value>
         /// From.
         /// </value>
+        
+        [Required]
         public required Guid From { get; set; }
         /// <summary>
         /// Gets or sets to.
@@ -24,7 +26,9 @@ namespace BankSim.Api.Models
         /// <value>
         /// To.
         /// </value>
-        public required Guid To { get; set; }
+
+        [Required]
+        public Guid To { get; set; }
         /// <summary>
         /// Gets or sets the amount.
         /// </summary>
