@@ -40,7 +40,7 @@
             <returns></returns>
             <exception cref="T:System.NotImplementedException"></exception>
         </member>
-        <member name="M:BankSim.Api.Controllers.AccountsController.AddAccount(BankSim.Api.Models.AccountDto,BankSim.Api.Controllers.AccountTypesEnum)">
+        <member name="M:BankSim.Api.Controllers.AccountsController.AddAccount(BankSim.Api.Models.Requestes.AccountDto,BankSim.Api.Controllers.AccountTypesEnum)">
             <summary>
             Adds the account.
             </summary>
@@ -86,65 +86,42 @@
             <param name="transferService">The transfer service.</param>
             <param name="accountStore"></param>
         </member>
-        <member name="M:BankSim.Api.Controllers.TransferController.Transfer(BankSim.Api.Models.TransferDto)">
+        <member name="M:BankSim.Api.Controllers.TransferController.Transfer(BankSim.Api.Models.Requestes.TransferDto)">
             <summary>
             Transfers the specified dto.
             </summary>
             <param name="dto">The dto.</param>
             <returns></returns>
         </member>
-        <member name="T:BankSim.Api.Middlewares.AccountMiddleware">
+        <member name="T:BankSim.Api.Middlewares.LogMiddleware">
             <summary>
             Transfer log middleware
             </summary>
         </member>
-        <member name="F:BankSim.Api.Middlewares.AccountMiddleware._next">
+        <member name="F:BankSim.Api.Middlewares.LogMiddleware._next">
             <summary>
             The next
             </summary>
         </member>
-        <member name="M:BankSim.Api.Middlewares.AccountMiddleware.#ctor(Microsoft.AspNetCore.Http.RequestDelegate)">
+        <member name="M:BankSim.Api.Middlewares.LogMiddleware.#ctor(Microsoft.AspNetCore.Http.RequestDelegate)">
             <summary>
-            Initializes a new instance of the <see cref="T:BankSim.Api.Middlewares.AccountMiddleware"/> class.
+            Initializes a new instance of the <see cref="T:BankSim.Api.Middlewares.LogMiddleware"/> class.
             </summary>
             <param name="next">The next.</param>
         </member>
-        <member name="M:BankSim.Api.Middlewares.AccountMiddleware.InvokeAsync(Microsoft.AspNetCore.Http.HttpContext)">
+        <member name="M:BankSim.Api.Middlewares.LogMiddleware.InvokeAsync(Microsoft.AspNetCore.Http.HttpContext)">
             <summary>
             Invokes the asynchronous.
             </summary>
             <param name="context">The context.</param>
             <returns></returns>
         </member>
-        <member name="T:BankSim.Api.Middlewares.TransferLogMiddleware">
-            <summary>
-            Transfer log middleware
-            </summary>
-        </member>
-        <member name="F:BankSim.Api.Middlewares.TransferLogMiddleware._next">
-            <summary>
-            The next
-            </summary>
-        </member>
-        <member name="M:BankSim.Api.Middlewares.TransferLogMiddleware.#ctor(Microsoft.AspNetCore.Http.RequestDelegate)">
-            <summary>
-            Initializes a new instance of the <see cref="T:BankSim.Api.Middlewares.TransferLogMiddleware"/> class.
-            </summary>
-            <param name="next">The next.</param>
-        </member>
-        <member name="M:BankSim.Api.Middlewares.TransferLogMiddleware.InvokeAsync(Microsoft.AspNetCore.Http.HttpContext)">
-            <summary>
-            Invokes the asynchronous.
-            </summary>
-            <param name="context">The context.</param>
-            <returns></returns>
-        </member>
-        <member name="T:BankSim.Api.Models.AccountDto">
+        <member name="T:BankSim.Api.Models.Requestes.AccountDto">
             <summary>
             The Account DTO
             </summary>
         </member>
-        <member name="P:BankSim.Api.Models.AccountDto.Owner">
+        <member name="P:BankSim.Api.Models.Requestes.AccountDto.Owner">
             <summary>
             Gets or sets the owner.
             </summary>
@@ -152,7 +129,7 @@
             The owner.
             </value>res
         </member>
-        <member name="P:BankSim.Api.Models.AccountDto.Balance">
+        <member name="P:BankSim.Api.Models.Requestes.AccountDto.Balance">
             <summary>
             Gets or sets the balance.
             </summary>
@@ -160,16 +137,7 @@
             The balance.
             </value>
         </member>
-        <member name="M:BankSim.Api.Models.AccountDto.ToEntity(System.String,BankSim.Domain.ValueObjects.Money,System.String)">
-            <summary>
-            Converts to entity.
-            </summary>
-            <param name="owner">The owner.</param>
-            <param name="amount">The amount.</param>
-            <param name="AccountType">Type of the account.</param>
-            <returns></returns>
-        </member>
-        <member name="M:BankSim.Api.Models.AccountDto.ToDto(System.String,BankSim.Domain.ValueObjects.Money)">
+        <member name="M:BankSim.Api.Models.Requestes.AccountDto.ToDto(System.String,BankSim.Domain.ValueObjects.Money)">
             <summary>
             Converts to dto.
             </summary>
@@ -177,12 +145,12 @@
             <param name="amount">The amount.</param>
             <returns></returns>
         </member>
-        <member name="T:BankSim.Api.Models.TransferDto">
+        <member name="T:BankSim.Api.Models.Requestes.TransferDto">
             <summary>
             Transfer DTO
             </summary>
         </member>
-        <member name="P:BankSim.Api.Models.TransferDto.From">
+        <member name="P:BankSim.Api.Models.Requestes.TransferDto.From">
             <summary>
             Gets or sets from.
             </summary>
@@ -190,7 +158,7 @@
             From.
             </value>
         </member>
-        <member name="P:BankSim.Api.Models.TransferDto.To">
+        <member name="P:BankSim.Api.Models.Requestes.TransferDto.To">
             <summary>
             Gets or sets to.
             </summary>
@@ -198,7 +166,7 @@
             To.
             </value>
         </member>
-        <member name="P:BankSim.Api.Models.TransferDto.Amount">
+        <member name="P:BankSim.Api.Models.Requestes.TransferDto.Amount">
             <summary>
             Gets or sets the amount.
             </summary>
@@ -206,13 +174,41 @@
             The amount.
             </value>
         </member>
-        <member name="P:BankSim.Api.Models.TransferDto.Description">
+        <member name="P:BankSim.Api.Models.Requestes.TransferDto.Description">
             <summary>
             Gets or sets the description.
             </summary>
             <value>
             The description.
             </value>
+        </member>
+        <member name="T:ApiResult`1">
+            <summary>
+            /
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:ApiResult`1.#ctor(`0,System.String,System.String)">
+            <summary>
+            /
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:ApiResult`1.Ok(`0,System.String)">
+            <summary>
+            Oks the specified data.
+            </summary>
+            <param name="data">The data.</param>
+            <param name="traceId">The trace identifier.</param>
+            <returns></returns>
+        </member>
+        <member name="M:ApiResult`1.Fail(System.String,System.String)">
+            <summary>
+            Fails the specified error.
+            </summary>
+            <param name="error">The error.</param>
+            <param name="traceId">The trace identifier.</param>
+            <returns></returns>
         </member>
     </members>
 </doc>

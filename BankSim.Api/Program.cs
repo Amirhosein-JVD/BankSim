@@ -23,8 +23,8 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-app.UseMiddleware<AccountMiddleware>();
-app.UseMiddleware<TransferLogMiddleware>();
+
+app.UseMiddleware<LogMiddleware>();
 
 app.MapControllers();
 

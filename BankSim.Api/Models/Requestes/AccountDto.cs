@@ -4,7 +4,7 @@ using BankSim.Domain.Exceptions;
 using BankSim.Domain.ValueObjects;
 using System.ComponentModel.DataAnnotations;
 
-namespace BankSim.Api.Models
+namespace BankSim.Api.Models.Requestes
 {
     /// <summary>
     /// The Account DTO
@@ -29,29 +29,6 @@ namespace BankSim.Api.Models
         /// The balance.
         /// </value>
         public Money Balance { get; set; }
-
-        /// <summary>
-        /// Converts to entity.
-        /// </summary>
-        /// <param name="owner">The owner.</param>
-        /// <param name="amount">The amount.</param>
-        /// <param name="AccountType">Type of the account.</param>
-        /// <returns></returns>
-        public static AccountBase ToEntity(string owner, Money amount, string AccountType)
-        {
-           if (AccountType == "Checking")
-           {
-                return new CheckingAccount(owner, amount);
-
-           } else if (AccountType == "Saving")
-           {
-                return new SavingsAccount(owner, amount);
-            }
-            else
-            {
-                throw new DomainException("Acconut not founded!");
-            }
-        }
 
         /// <summary>
         /// Converts to dto.
