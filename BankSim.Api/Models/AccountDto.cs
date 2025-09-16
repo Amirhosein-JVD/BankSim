@@ -16,7 +16,7 @@ namespace BankSim.Api.Models
         /// </summary>
         /// <value>
         /// The owner.
-        /// </value>
+        /// </value>res
         public required string Owner { get; set; }
 
         /// <summary>
