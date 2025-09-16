@@ -17,14 +17,14 @@ namespace BankSim.Api.Models
         /// <value>
         /// From.
         /// </value>
-        public required AccountBase From { get; set; }
+        public required Guid From { get; set; }
         /// <summary>
         /// Gets or sets to.
         /// </summary>
         /// <value>
         /// To.
         /// </value>
-        public required AccountBase To { get; set; }
+        public required Guid To { get; set; }
         /// <summary>
         /// Gets or sets the amount.
         /// </summary>

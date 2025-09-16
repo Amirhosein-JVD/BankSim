@@ -36,8 +36,8 @@ public static class Program
         var statement = sp.GetRequiredService<IStatementService>();
         var accountStore = sp.GetRequiredService<IAccountStore>();
 
-        IAccount alice = new CheckingAccount("Alice", new Money(1200m, Currency.USD));
-        IAccount bob   = new CheckingAccount("Bob",   new Money( 700m, Currency.USD));
+        AccountBase alice = new CheckingAccount("Alice", new Money(1200m, Currency.USD));
+        AccountBase bob   = new CheckingAccount("Bob",   new Money( 700m, Currency.USD));
 
         accountStore.Add(alice);
         accountStore.Add(bob);

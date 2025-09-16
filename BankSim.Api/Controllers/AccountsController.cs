@@ -1,5 +1,4 @@
-﻿using BankSim.Api.Mappers;
-using BankSim.Api.Models;
+﻿using BankSim.Api.Models;
 using BankSim.Domain.Account;
 using BankSim.Domain.Services;
 using BankSim.Domain.ValueObjects;
@@ -45,7 +44,8 @@ namespace BankSim.Api.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<AccountDto>> GetAllAccounts()
         {
-            return Ok(_accountStore.GetAll());
+            var _accounts = _accountStore.GetAll();
+            return Ok(_accounts);
         }
 
         /// <summary>
@@ -57,18 +57,20 @@ namespace BankSim.Api.Controllers
         [HttpGet("{Id}")]
         public ActionResult<AccountDto> GetAccountById(Guid Id) 
         {
-            return Ok(_accountStore?.Get(Id));
+            var _account = _accountStore.Get(Id);
+            return Ok(_account);
         }
 
         /// <summary>
         /// Adds the account.
         /// </summary>
         /// <param name="dto">The dto.</param>
+        /// <param name="AccountType"></param>
         /// <exception cref="System.NotImplementedException"></exception>
         [HttpPost]
-        public ActionResult AddAccount(AccountDto dto) 
+        public ActionResult AddAccount(AccountDto dto, string AccountType) 
         {
-            _accountStore?.Add(dto.ToEntity());
+            _accountStore.Add(AccountDto.ToEntity(dto.Owner, dto.Balance, AccountType));
             return Ok();
         }
     }

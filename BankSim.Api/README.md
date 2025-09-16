@@ -40,11 +40,12 @@
             <returns></returns>
             <exception cref="T:System.NotImplementedException"></exception>
         </member>
-        <member name="M:BankSim.Api.Controllers.AccountsController.AddAccount(BankSim.Api.Models.AccountDto)">
+        <member name="M:BankSim.Api.Controllers.AccountsController.AddAccount(BankSim.Api.Models.AccountDto,System.String)">
             <summary>
             Adds the account.
             </summary>
             <param name="dto">The dto.</param>
+            <param name="AccountType"></param>
             <exception cref="T:System.NotImplementedException"></exception>
         </member>
         <member name="T:BankSim.Api.Controllers.TransferController">
@@ -57,34 +58,23 @@
             The transfer service
             </summary>
         </member>
-        <member name="M:BankSim.Api.Controllers.TransferController.#ctor(BankSim.Domain.Services.ITransferService)">
+        <member name="F:BankSim.Api.Controllers.TransferController._accountStore">
+            <summary>
+            The account store
+            </summary>
+        </member>
+        <member name="M:BankSim.Api.Controllers.TransferController.#ctor(BankSim.Domain.Services.ITransferService,BankSim.Infrastructure.Persistence.IAccountStore)">
             <summary>
             Initializes a new instance of the <see cref="T:BankSim.Api.Controllers.TransferController"/> class.
             </summary>
             <param name="transferService">The transfer service.</param>
+            <param name="accountStore"></param>
         </member>
         <member name="M:BankSim.Api.Controllers.TransferController.Transfer(BankSim.Api.Models.TransferDto)">
             <summary>
             Transfers the specified dto.
             </summary>
             <param name="dto">The dto.</param>
-        </member>
-        <member name="T:BankSim.Api.Mappers.AccountMapper">
-            <summary>
-            Account Mapper map Account and AccountDto
-            </summary>
-        </member>
-        <member name="M:BankSim.Api.Mappers.AccountMapper.ToDto(BankSim.Domain.Abstractions.AccountBase)">
-            <summary>
-            Converts to dto.
-            </summary>
-            <param name="account">The account.</param>
-            <returns></returns>
-        </member>
-        <member name="M:BankSim.Api.Mappers.AccountMapper.ToEntity(BankSim.Api.Models.AccountDto)">
-            new<summary>
-            Converts to entity.
-            </summary>
             <returns></returns>
         </member>
         <member name="T:BankSim.Api.Models.AccountDto">
