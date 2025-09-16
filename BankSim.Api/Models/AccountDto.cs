@@ -10,13 +10,15 @@ namespace BankSim.Api.Models
     /// </summary>
     public class AccountDto
     {
+
         /// <summary>
         /// Gets or sets the owner.
         /// </summary>
         /// <value>
         /// The owner.
         /// </value>
-        public string? Owner { get; set; }
+        public required string Owner { get; set; }
+
         /// <summary>
         /// Gets or sets the balance.
         /// </summary>

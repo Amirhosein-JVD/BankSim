@@ -12,17 +12,17 @@ public interface IAccountStore
     /// </summary>
     /// <param name="id">The unique identifier of the account.</param>
     /// <returns>The account associated with the specified identifier.</returns>
-    IAccount Get(Guid id);
+    AccountBase Get(Guid id);
 
     /// <summary>
     /// The Add method adds a new account to the store.
     /// </summary>
     /// <param name="account">The account to be added.</param>
-    void Add(IAccount account);
+    void Add(AccountBase account);
 
     /// <summary>
     /// The GetAll method retrieves all accounts from the store.
     /// </summary>
     /// <returns>A read-only list of all accounts.</returns>
-    IReadOnlyList<IAccount> GetAll();
+    IReadOnlyList<AccountBase> GetAll();
 }

@@ -16,7 +16,7 @@
             <param name="id">The unique identifier of the account.</param>
             <returns>The account associated with the specified identifier.</returns>
         </member>
-        <member name="M:BankSim.Infrastructure.Persistence.IAccountStore.Add(BankSim.Domain.Abstractions.IAccount)">
+        <member name="M:BankSim.Infrastructure.Persistence.IAccountStore.Add(BankSim.Domain.Abstractions.AccountBase)">
             <summary>
             The Add method adds a new account to the store.
             </summary>
@@ -33,7 +33,7 @@
             The InMemoryAccountStore class provides an in-memory implementation of the IAccountStore interface.
             </summary>
         </member>
-        <member name="M:BankSim.Infrastructure.Persistence.InMemoryAccountStore.Add(BankSim.Domain.Abstractions.IAccount)">
+        <member name="M:BankSim.Infrastructure.Persistence.InMemoryAccountStore.Add(BankSim.Domain.Abstractions.AccountBase)">
             <summary>
             The Add method adds a new account to the store.
             </summary>
