@@ -1,4 +1,5 @@
 using BankSim.Api.Middlewares;
+using BankSim.Domain.Account;
 using BankSim.Domain.Services;
 using BankSim.Infrastructure.Persistence;
 using Microsoft.Data.SqlClient;
@@ -18,6 +19,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<IStatementService, StatementService>();
 //builder.Services.AddSingleton<IAccountStore, InMemoryAccountStore>();
 builder.Services.AddSingleton<ITransferService, TransferService>();
+builder.Services.AddSingleton<IAccountFactoryService, AccountFactoryService>();
 builder.Services.AddSingleton<IAccountStore>(sp => new InSqlServerStore(connectionString));
 builder.Services.AddControllers();
 

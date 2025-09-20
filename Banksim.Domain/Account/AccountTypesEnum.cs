@@ -12,5 +12,5 @@ public enum AccountTypesEnum
     /// <summary>
     /// The saving account
     /// </summary>
-    SavingAccount
+    SavingsAccount
 }   
