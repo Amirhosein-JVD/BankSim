@@ -49,24 +49,14 @@ namespace BankSim.Api.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ApiResult<string>.Fail("Model isn't valid", HttpContext.TraceIdentifier));
 
-            try
-            {
-                var accountFrom = _accountStore.Get(dto.From);
-                var accountTo = _accountStore.Get(dto.To);
+            var accountFrom = _accountStore.Get(dto.From);
+            var accountTo = _accountStore.Get(dto.To);
 
-                if (accountFrom == null || accountTo == null)
-                    return NotFound(ApiResult<string>.Fail("account not found!", HttpContext.TraceIdentifier));
+            //_transferService.Transfer(accountFrom, accountTo, dto.Amount, dto.Description);
+            _accountStore.Transfer(dto.From, dto.To, dto.Amount, dto.Description);
 
-                //_transferService.Transfer(accountFrom, accountTo, dto.Amount, dto.Description);
-                _accountStore.Transfer(dto.From, dto.To, dto.Amount, dto.Description);
-
-                return Ok(ApiResult<string>.Ok("transfer is succesfully done!", HttpContext.TraceIdentifier));
-            }
-            catch(Exception ex) 
-            {
-                Console.WriteLine(ex.ToString());
-                return StatusCode(500, ApiResult<string>.Fail("Internal server error", HttpContext.TraceIdentifier));
-            }
+            return Ok(ApiResult<string>.Ok("transfer is succesfully done!", HttpContext.TraceIdentifier));
+   
         }
     }
 }

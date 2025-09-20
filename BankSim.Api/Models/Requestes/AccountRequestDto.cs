@@ -9,7 +9,7 @@ namespace BankSim.Api.Models.Requestes
     /// <summary>
     /// The Account DTO
     /// </summary>
-    public class AccountDto
+    public class AccountRequestDto
     {
 
         /// <summary>
@@ -36,8 +36,8 @@ namespace BankSim.Api.Models.Requestes
         /// <param name="owner">The owner.</param>
         /// <param name="amount">The amount.</param>
         /// <returns></returns>
-        public static AccountDto ToDto(string owner, Money amount) {
-            return new AccountDto { Owner= owner, Balance=amount };
+        public static AccountRequestDto ToDto(string owner, Money amount) {
+            return new AccountRequestDto { Owner= owner, Balance=amount };
         }
     }
 }
