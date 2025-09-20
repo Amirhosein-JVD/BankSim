@@ -1,5 +1,4 @@
-﻿namespace BankSim.Api.Controllers;
-
+﻿
 /// <summary>
 /// Account Types Enum
 /// </summary>

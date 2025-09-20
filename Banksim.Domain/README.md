@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <doc>
     <assembly>
-        <name>Banksim.Domain</name>
+        <name>BankSim.Domain</name>
     </assembly>
     <members>
         <member name="T:BankSim.Domain.Abstractions.AccountBase">
@@ -390,6 +390,21 @@
         </member>
         <member name="M:BankSim.Domain.ValueObjects.Money.ToString">
             <inheritdoc />
+        </member>
+        <member name="T:AccountTypesEnum">
+            <summary>
+            Account Types Enum
+            </summary>
+        </member>
+        <member name="F:AccountTypesEnum.CheckingAccount">
+            <summary>
+            The checking account
+            </summary>
+        </member>
+        <member name="F:AccountTypesEnum.SavingAccount">
+            <summary>
+            The saving account
+            </summary>
         </member>
     </members>
 </doc>

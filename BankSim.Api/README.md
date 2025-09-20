@@ -40,7 +40,7 @@
             <returns></returns>
             <exception cref="T:System.NotImplementedException"></exception>
         </member>
-        <member name="M:BankSim.Api.Controllers.AccountsController.AddAccount(BankSim.Api.Models.Requestes.AccountDto,BankSim.Api.Controllers.AccountTypesEnum)">
+        <member name="M:BankSim.Api.Controllers.AccountsController.AddAccount(BankSim.Api.Models.Requestes.AccountRequestDto,AccountTypesEnum)">
             <summary>
             Adds the account.
             </summary>
@@ -48,21 +48,6 @@
             <param name="accountType">Type of the account.</param>
             <returns></returns>
             <exception cref="T:BankSim.Domain.Exceptions.DomainException">Acconut not founded!</exception>
-        </member>
-        <member name="T:BankSim.Api.Controllers.AccountTypesEnum">
-            <summary>
-            Account Types Enum
-            </summary>
-        </member>
-        <member name="F:BankSim.Api.Controllers.AccountTypesEnum.CheckingAccount">
-            <summary>
-            The checking account
-            </summary>
-        </member>
-        <member name="F:BankSim.Api.Controllers.AccountTypesEnum.SavingAccount">
-            <summary>
-            The saving account
-            </summary>
         </member>
         <member name="T:BankSim.Api.Controllers.TransferController">
             <summary>
@@ -116,12 +101,12 @@
             <param name="context">The context.</param>
             <returns></returns>
         </member>
-        <member name="T:BankSim.Api.Models.Requestes.AccountDto">
+        <member name="T:BankSim.Api.Models.Requestes.AccountRequestDto">
             <summary>
             The Account DTO
             </summary>
         </member>
-        <member name="P:BankSim.Api.Models.Requestes.AccountDto.Owner">
+        <member name="P:BankSim.Api.Models.Requestes.AccountRequestDto.Owner">
             <summary>
             Gets or sets the owner.
             </summary>
@@ -129,7 +114,7 @@
             The owner.
             </value>res
         </member>
-        <member name="P:BankSim.Api.Models.Requestes.AccountDto.Balance">
+        <member name="P:BankSim.Api.Models.Requestes.AccountRequestDto.Balance">
             <summary>
             Gets or sets the balance.
             </summary>
@@ -137,7 +122,7 @@
             The balance.
             </value>
         </member>
-        <member name="M:BankSim.Api.Models.Requestes.AccountDto.ToDto(System.String,BankSim.Domain.ValueObjects.Money)">
+        <member name="M:BankSim.Api.Models.Requestes.AccountRequestDto.ToDto(System.String,BankSim.Domain.ValueObjects.Money)">
             <summary>
             Converts to dto.
             </summary>
@@ -182,15 +167,36 @@
             The description.
             </value>
         </member>
+        <member name="T:BankSim.Api.Models.Requestes.AccountResponseDto">
+            <summary>
+            The Account DTO
+            </summary>
+        </member>
+        <member name="P:BankSim.Api.Models.Requestes.AccountResponseDto.Owner">
+            <summary>
+            Gets or sets the owner.
+            </summary>
+            <value>
+            The owner.
+            </value>res
+        </member>
+        <member name="P:BankSim.Api.Models.Requestes.AccountResponseDto.Balance">
+            <summary>
+            Gets or sets the balance.
+            </summary>
+            <value>
+            The balance.
+            </value>
+        </member>
         <member name="T:ApiResult`1">
             <summary>
-            /
+            Api reslult
             </summary>
             <typeparam name="T"></typeparam>
         </member>
         <member name="M:ApiResult`1.#ctor(`0,System.String,System.String)">
             <summary>
-            /
+            Api reslult
             </summary>
             <typeparam name="T"></typeparam>
         </member>

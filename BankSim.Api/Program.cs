@@ -5,7 +5,7 @@ using Microsoft.Data.SqlClient;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var connectionString = "Server=localhost;Database=BankSim;Trusted_Connection=True;TrustServerCertificate=True;";
+var connectionString = "Server=(localdb)\\MSSQLLocalDB;Database=BankSim;Trusted_Connection=True;TrustServerCertificate=True;";
 
 using var connection = new SqlConnection(connectionString);
 connection.Open();

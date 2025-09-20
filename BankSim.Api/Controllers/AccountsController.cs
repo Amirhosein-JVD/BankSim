@@ -3,9 +3,10 @@ using BankSim.Api.Models.Requestes;
 using BankSim.Domain.Abstractions;
 using BankSim.Domain.Account;
 using BankSim.Domain.Services;
+using BankSim.Domain.ValueObjects;
 using BankSim.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Mvc;
-using BankSim.Domain.ValueObjects;
+using System.Reflection;
 
 
 namespace BankSim.Api.Controllers
@@ -44,7 +45,7 @@ namespace BankSim.Api.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        [ProducesResponseType(typeof(IEnumerable<AccountDto>), 200)]
+        [ProducesResponseType(typeof(IEnumerable<AccountResponseDto>), 200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(500)]
         public ActionResult<ApiResult<IEnumerable<AccountBase>>> GetAllAccounts()
@@ -52,15 +53,9 @@ namespace BankSim.Api.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            try
-            {
-                var accounts = _accountStore.GetAll();
-                return Ok(ApiResult<IEnumerable<AccountBase>>.Ok(accounts ,HttpContext.TraceIdentifier));
-            }
-            catch 
-            { 
-                return StatusCode(500, "Internal server error");
-            }
+            var accounts = _accountStore.GetAll();
+            return Ok(ApiResult<IEnumerable<AccountBase>>.Ok(accounts ,HttpContext.TraceIdentifier));
+       
         }
 
         /// <summary>
@@ -70,27 +65,22 @@ namespace BankSim.Api.Controllers
         /// <returns></returns>
         /// <exception cref="System.NotImplementedException"></exception>
         [HttpGet("{id}")]
-        [ProducesResponseType(typeof(AccountDto), 200)]
+        [ProducesResponseType(typeof(AccountResponseDto), 200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
-        public ActionResult<ApiResult<AccountDto>> GetAccountById(Guid id)
+        public ActionResult<ApiResult<AccountResponseDto>> GetAccountById(Guid id)
         {
             if (!ModelState.IsValid)
-                return BadRequest(ApiResult<AccountDto>.Fail("Model isn't valid", HttpContext.TraceIdentifier));
+                return BadRequest(ApiResult<AccountRequestDto>.Fail("Model isn't valid", HttpContext.TraceIdentifier));
 
-            try
-            {
-                var account = _accountStore.Get(id);
-                if (account == null)
-                    return NotFound(ApiResult<AccountDto>.Fail("account not found!", HttpContext.TraceIdentifier)); 
+         
+            var account = _accountStore.Get(id);
+            if (account == null)
+                return NotFound(ApiResult<AccountResponseDto>.Fail("account not found!", HttpContext.TraceIdentifier)); 
                 
-                return Ok(ApiResult<AccountDto>.Ok(AccountDto.ToDto(account.Owner, account.Balance), HttpContext.TraceIdentifier));
-            }
-            catch 
-            {
-                return StatusCode(500, ApiResult<AccountDto>.Fail("Internal server error", HttpContext.TraceIdentifier));
-            }
+            return Ok(ApiResult<AccountRequestDto>.Ok(AccountRequestDto.ToDto(account.Owner, account.Balance), HttpContext.TraceIdentifier));
+         
         }
 
         /// <summary>
@@ -105,29 +95,27 @@ namespace BankSim.Api.Controllers
         [ProducesResponseType(400)] 
         [ProducesResponseType(404)] 
         [ProducesResponseType(500)] 
-        public ActionResult<ApiResult<string>> AddAccount(AccountDto dto, AccountTypesEnum accountType)
+        public ActionResult<ApiResult<string>> AddAccount(AccountRequestDto dto, AccountTypesEnum accountType)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            try
-            {
-                switch (accountType)
-                {
-                    case AccountTypesEnum.CheckingAccount:
-                        _accountStore.Add(new CheckingAccount(dto.Owner, new Money(dto.Balance.Amount, (Currency) dto.Balance.Currency)));
-                        return Ok(ApiResult<string>.Ok("Adding account is success!", HttpContext.TraceIdentifier));
-                    case AccountTypesEnum.SavingAccount:
-                        _accountStore.Add(new SavingsAccount(dto.Owner, new Money(dto.Balance.Amount, (Currency)dto.Balance.Currency)));
-                        return Ok(ApiResult<string>.Ok("Adding account is success!", HttpContext.TraceIdentifier));
-                    default:
-                        return NotFound(ApiResult<string>.Fail("Account type not found", HttpContext.TraceIdentifier));
-                }
-            }
-            catch
-            {
-                return StatusCode(500, ApiResult<AccountDto>.Fail("Internal server error", HttpContext.TraceIdentifier));
-            }
+            var className = accountType.ToString();
+
+            var type = Assembly.Load("BankSim.Domain")
+                               .GetTypes()
+                               .FirstOrDefault(t => t.Name == className);
+
+
+            if (type == null)
+                return NotFound(ApiResult<string>.Fail("Account type not found", HttpContext.TraceIdentifier));
+
+            var accountInstance = Activator.CreateInstance(type, dto.Owner,
+                new Money(dto.Balance.Amount, (Currency)dto.Balance.Currency));
+
+            _accountStore.Add(new SavingsAccount(dto.Owner, new Money(dto.Balance.Amount, (Currency)dto.Balance.Currency)));
+            return Ok(ApiResult<string>.Ok("Adding account is success!", HttpContext.TraceIdentifier));
+  
         }
 
     }
