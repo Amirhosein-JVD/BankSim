@@ -89,6 +89,21 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="T:BankSim.Domain.Account.AccountFactoryService">
+            <summary>
+            Adding account service
+            </summary>
+        </member>
+        <member name="M:BankSim.Domain.Account.AccountFactoryService.AccountFactory(System.String,System.Decimal,System.Int32,System.Int32)">
+            <summary>
+            Adds the account.
+            </summary>
+            <param name="owner">The owner.</param>
+            <param name="balance">The balance.</param>
+            <param name="currency">The currency.</param>
+            <param name="accountType">Type of the account.</param>
+            <returns></returns>
+        </member>
         <member name="T:BankSim.Domain.Account.CheckingAccount">
             <summary>
             The CheckingAccount class represents a checking account in the banking system.
@@ -104,6 +119,21 @@
         </member>
         <member name="M:BankSim.Domain.Account.CheckingAccount.ProtectedWithdrawal(BankSim.Domain.ValueObjects.Money,System.String)">
             <inheritdoc />
+        </member>
+        <member name="T:BankSim.Domain.Account.IAccountFactoryService">
+            <summary>
+            Account factory service
+            </summary>
+        </member>
+        <member name="M:BankSim.Domain.Account.IAccountFactoryService.AccountFactory(System.String,System.Decimal,System.Int32,System.Int32)">
+            <summary>
+            Accounts the factory.
+            </summary>
+            <param name="owner">The owner.</param>
+            <param name="balance">The balance.</param>
+            <param name="currency">The currency.</param>
+            <param name="accountType">Type of the account.</param>
+            <returns></returns>
         </member>
         <member name="T:BankSim.Domain.Account.SavingsAccount">
             <summary>
@@ -401,7 +431,7 @@
             The checking account
             </summary>
         </member>
-        <member name="F:AccountTypesEnum.SavingAccount">
+        <member name="F:AccountTypesEnum.SavingsAccount">
             <summary>
             The saving account
             </summary>

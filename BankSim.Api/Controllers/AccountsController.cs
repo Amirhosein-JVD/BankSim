@@ -29,15 +29,20 @@ namespace BankSim.Api.Controllers
         /// </summary>
         private readonly IStatementService _statementService;
 
+
+        private readonly IAccountFactoryService _accountFactoryService;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="AccountsController"/> class.
         /// </summary>
         /// <param name="accountStore">The account store.</param>
         /// <param name="statementService">The statement service.</param>
-        public AccountsController(IAccountStore accountStore, IStatementService statementService)
+        /// <param name="accountFactoryService">The account factory service.</param>
+        public AccountsController(IAccountStore accountStore, IStatementService statementService, IAccountFactoryService accountFactoryService)
         {
             _accountStore = accountStore;
             _statementService = statementService;
+            _accountFactoryService = accountFactoryService;
         }
 
         /// <summary>
@@ -100,20 +105,9 @@ namespace BankSim.Api.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var className = accountType.ToString();
-
-            var type = Assembly.Load("BankSim.Domain")
-                               .GetTypes()
-                               .FirstOrDefault(t => t.Name == className);
 
 
-            if (type == null)
-                return NotFound(ApiResult<string>.Fail("Account type not found", HttpContext.TraceIdentifier));
-
-            var accountInstance = Activator.CreateInstance(type, dto.Owner,
-                new Money(dto.Balance.Amount, (Currency)dto.Balance.Currency));
-
-            _accountStore.Add(new SavingsAccount(dto.Owner, new Money(dto.Balance.Amount, (Currency)dto.Balance.Currency)));
+            _accountStore.Add(_accountFactoryService.AccountFactory(dto.Owner, dto.Balance.Amount, (int) dto.Balance.Currency, (int) accountType));
             return Ok(ApiResult<string>.Ok("Adding account is success!", HttpContext.TraceIdentifier));
   
         }

@@ -19,12 +19,13 @@
             The statement service
             </summary>
         </member>
-        <member name="M:BankSim.Api.Controllers.AccountsController.#ctor(BankSim.Infrastructure.Persistence.IAccountStore,BankSim.Domain.Services.IStatementService)">
+        <member name="M:BankSim.Api.Controllers.AccountsController.#ctor(BankSim.Infrastructure.Persistence.IAccountStore,BankSim.Domain.Services.IStatementService,BankSim.Domain.Account.IAccountFactoryService)">
             <summary>
             Initializes a new instance of the <see cref="T:BankSim.Api.Controllers.AccountsController"/> class.
             </summary>
             <param name="accountStore">The account store.</param>
             <param name="statementService">The statement service.</param>
+            <param name="accountFactoryService">The account factory service.</param>
         </member>
         <member name="M:BankSim.Api.Controllers.AccountsController.GetAllAccounts">
             <summary>
