@@ -6,7 +6,7 @@
     <members>
         <member name="T:BankSim.Api.Controllers.AccountsController">
             <summary>
-            Conrollers of accounts
+            Controllers of accounts
             </summary>
         </member>
         <member name="F:BankSim.Api.Controllers.AccountsController._accountStore">

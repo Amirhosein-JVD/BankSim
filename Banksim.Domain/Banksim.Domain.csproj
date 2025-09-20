@@ -8,5 +8,4 @@
         <PackageTags>common;domain;models;banksim</PackageTags>
         <GenerateDocumentationFile>True</GenerateDocumentationFile>
     </PropertyGroup>
-
 </Project>

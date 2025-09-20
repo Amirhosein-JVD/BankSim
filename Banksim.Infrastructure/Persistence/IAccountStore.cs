@@ -1,11 +1,12 @@
 ﻿using BankSim.Domain.Abstractions;
+using BankSim.Domain.ValueObjects;
 
 namespace BankSim.Infrastructure.Persistence;
 
 /// <summary>
 /// The IAccountStore interface defines methods for managing and retrieving bank account information.
 /// </summary>
-public interface IAccountStore
+public interface IAccountStore : ITransferDatabaseService
 {
     /// <summary>
     /// The Get method retrieves an account by its unique identifier.

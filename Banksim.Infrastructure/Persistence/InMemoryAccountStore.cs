@@ -1,4 +1,5 @@
 ﻿using BankSim.Domain.Abstractions;
+using BankSim.Domain.ValueObjects;
 
 namespace BankSim.Infrastructure.Persistence;
 
@@ -30,4 +31,17 @@ public class InMemoryAccountStore : IAccountStore
 
     /// <inheritdoc />
     public IReadOnlyList<AccountBase> GetAll() => _accounts.Values.ToList();
+
+    /// <summary>
+    /// transfer in memory
+    /// </summary>
+    /// <param name="from"></param>
+    /// <param name="to"></param>
+    /// <param name="amount"></param>
+    /// <param name="description"></param>
+    /// <exception cref="Exception"></exception>
+    public void Transfer(Guid from, Guid to, Money amount, string description = "")
+    {
+        throw new Exception("You must use domain transfer service!");
+    }
 }

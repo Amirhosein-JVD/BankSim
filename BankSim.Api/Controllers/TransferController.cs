@@ -57,12 +57,14 @@ namespace BankSim.Api.Controllers
                 if (accountFrom == null || accountTo == null)
                     return NotFound(ApiResult<string>.Fail("account not found!", HttpContext.TraceIdentifier));
 
-                _transferService.Transfer(accountFrom, accountTo, dto.Amount, dto.Description);
+                //_transferService.Transfer(accountFrom, accountTo, dto.Amount, dto.Description);
+                _accountStore.Transfer(dto.From, dto.To, dto.Amount, dto.Description);
 
                 return Ok(ApiResult<string>.Ok("transfer is succesfully done!", HttpContext.TraceIdentifier));
             }
-            catch
+            catch(Exception ex) 
             {
+                Console.WriteLine(ex.ToString());
                 return StatusCode(500, ApiResult<string>.Fail("Internal server error", HttpContext.TraceIdentifier));
             }
         }

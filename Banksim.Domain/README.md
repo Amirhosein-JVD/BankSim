@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <doc>
     <assembly>
-        <name>BankSim.Domain</name>
+        <name>Banksim.Domain</name>
     </assembly>
     <members>
         <member name="T:BankSim.Domain.Abstractions.AccountBase">

@@ -5,12 +5,13 @@ using BankSim.Domain.Account;
 using BankSim.Domain.Services;
 using BankSim.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Mvc;
+using BankSim.Domain.ValueObjects;
 
 
 namespace BankSim.Api.Controllers
 {
     /// <summary>
-    /// Conrollers of accounts
+    /// Controllers of accounts
     /// </summary>
 
     [ApiController]
@@ -56,8 +57,8 @@ namespace BankSim.Api.Controllers
                 var accounts = _accountStore.GetAll();
                 return Ok(ApiResult<IEnumerable<AccountBase>>.Ok(accounts ,HttpContext.TraceIdentifier));
             }
-            catch
-            {
+            catch 
+            { 
                 return StatusCode(500, "Internal server error");
             }
         }
@@ -86,7 +87,7 @@ namespace BankSim.Api.Controllers
                 
                 return Ok(ApiResult<AccountDto>.Ok(AccountDto.ToDto(account.Owner, account.Balance), HttpContext.TraceIdentifier));
             }
-            catch
+            catch 
             {
                 return StatusCode(500, ApiResult<AccountDto>.Fail("Internal server error", HttpContext.TraceIdentifier));
             }
@@ -114,10 +115,10 @@ namespace BankSim.Api.Controllers
                 switch (accountType)
                 {
                     case AccountTypesEnum.CheckingAccount:
-                        _accountStore.Add(new CheckingAccount(dto.Owner, dto.Balance));
+                        _accountStore.Add(new CheckingAccount(dto.Owner, new Money(dto.Balance.Amount, (Currency) dto.Balance.Currency)));
                         return Ok(ApiResult<string>.Ok("Adding account is success!", HttpContext.TraceIdentifier));
                     case AccountTypesEnum.SavingAccount:
-                        _accountStore.Add(new SavingsAccount(dto.Owner, dto.Balance));
+                        _accountStore.Add(new SavingsAccount(dto.Owner, new Money(dto.Balance.Amount, (Currency)dto.Balance.Currency)));
                         return Ok(ApiResult<string>.Ok("Adding account is success!", HttpContext.TraceIdentifier));
                     default:
                         return NotFound(ApiResult<string>.Fail("Account type not found", HttpContext.TraceIdentifier));

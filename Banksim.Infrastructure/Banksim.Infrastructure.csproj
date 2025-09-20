@@ -9,6 +9,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\BankSim.Domain\Banksim.Domain.csproj"/>
+        <ProjectReference Include="..\BankSim.Domain\Banksim.Domain.csproj" />
+		<PackageReference Include="Microsoft.Data.SqlClient" />
+		<PackageReference Include="Dapper" />
     </ItemGroup>
 </Project>
