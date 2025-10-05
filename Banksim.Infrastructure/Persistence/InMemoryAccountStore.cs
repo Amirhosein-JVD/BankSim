@@ -1,12 +1,13 @@
 ﻿using BankSim.Domain.Abstractions;
 using BankSim.Domain.ValueObjects;
+using BankSim.Infrastructure.Persistence.Services;
 
 namespace BankSim.Infrastructure.Persistence;
 
 /// <summary>
 /// The InMemoryAccountStore class provides an in-memory implementation of the IAccountStore interface.
 /// </summary>
-public class InMemoryAccountStore : IAccountStore
+public class InMemoryAccountStore : IAccountStore, ITransferDatabaseService
 {
     private readonly Dictionary<Guid, AccountBase> _accounts = new();
 
@@ -32,15 +33,9 @@ public class InMemoryAccountStore : IAccountStore
     /// <inheritdoc />
     public IReadOnlyList<AccountBase> GetAll() => _accounts.Values.ToList();
 
-    /// <summary>
-    /// transfer in memory
-    /// </summary>
-    /// <param name="from"></param>
-    /// <param name="to"></param>
-    /// <param name="amount"></param>
-    /// <param name="description"></param>
-    /// <exception cref="Exception"></exception>
-    public void Transfer(Guid from, Guid to, Money amount, string description = "")
+
+    /// <inheritdoc />
+    public void Transfer(Guid from, Guid to, Money amount)
     {
         throw new Exception("You must use domain transfer service!");
     }
