@@ -1,5 +1,6 @@
 ﻿using BankSim.Domain.Abstractions;
 using BankSim.Domain.ValueObjects;
+using BankSim.Infrastructure.Persistence.Services;
 
 namespace BankSim.Infrastructure.Persistence;
 
