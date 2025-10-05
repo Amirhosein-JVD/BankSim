@@ -8,11 +8,14 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" />
+    <PackageReference Include="Microsoft.Orleans.Client" />
+    <PackageReference Include="NATS.Net" />
     <PackageReference Include="Swashbuckle.AspNetCore" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\BankSim.Domain\BankSim.Domain.csproj" />
+    <ProjectReference Include="..\Banksim.Grain\Banksim.Grain.csproj" />
     <ProjectReference Include="..\BankSim.Infrastructure\BankSim.Infrastructure.csproj" />
   </ItemGroup>
 

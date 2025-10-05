@@ -1,7 +1,7 @@
 <Project>
   <PropertyGroup>
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <!-- Compiler Settings -->
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
@@ -15,16 +15,23 @@
     <!-- Solution Specifications -->
     <Authors>Amirhosein Javadpour; Aydin Mohandesi</Authors>
     <Company>Sahra</Company>
-	<RepositoryType>git</RepositoryType>
-	<DocumentationFile>README.md</DocumentationFile>
+    <RepositoryType>git</RepositoryType>
+    <DocumentationFile>README.md</DocumentationFile>
   </PropertyGroup>
   <!-- NuGet package versions -->
   <ItemGroup>
     <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="9.0.9" />
     <PackageVersion Include="Microsoft.Extensions.Hosting" Version="9.0.9" />
     <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="9.0.9" />
+    <PackageVersion Include="Microsoft.Orleans.Client" Version="9.2.1" />
+    <PackageVersion Include="Microsoft.Orleans.Core.Abstractions" Version="9.2.1" />
+    <PackageVersion Include="Microsoft.Orleans.OrleansRuntime" Version="3.8.0" />
+    <PackageVersion Include="Microsoft.Orleans.Runtime.Abstractions" Version="3.8.0" />
+    <PackageVersion Include="Microsoft.Orleans.Sdk" Version="9.2.1" />
+    <PackageVersion Include="Microsoft.Orleans.Server" Version="9.2.1" />
+    <PackageVersion Include="NATS.Net" Version="2.6.10" />
     <PackageVersion Include="Swashbuckle.AspNetCore" Version="9.0.4" />
-	<PackageVersion Include="Microsoft.Data.SqlClient" Version="6.1.1" />
-	<PackageVersion Include="Dapper" Version="2.1.66" />
+    <PackageVersion Include="Microsoft.Data.SqlClient" Version="6.1.1" />
+    <PackageVersion Include="Dapper" Version="2.1.66" />
   </ItemGroup>
 </Project>

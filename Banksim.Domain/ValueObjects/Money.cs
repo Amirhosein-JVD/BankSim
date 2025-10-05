@@ -6,6 +6,7 @@ namespace BankSim.Domain.ValueObjects;
 /// The Money value object represents a monetary amount in a specific currency.
 /// It provides methods for addition, subtraction, and comparison while ensuring currency consistency.
 /// </summary>
+
 public readonly record struct Money
 {
     /// <summary>

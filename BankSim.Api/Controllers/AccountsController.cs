@@ -1,4 +1,6 @@
-﻿using BankSim.Api.Models;
+﻿using Banksim.Grain.Abstractions;
+using Banksim.Grain.Accounts;
+using BankSim.Api.Models;
 using BankSim.Api.Models.Requestes;
 using BankSim.Domain.Abstractions;
 using BankSim.Domain.Account;
@@ -6,7 +8,10 @@ using BankSim.Domain.Services;
 using BankSim.Domain.ValueObjects;
 using BankSim.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Mvc;
+using NATS.Client.JetStream.Models;
+using NATS.Net;
 using System.Reflection;
+using System.Threading.Tasks;
 
 
 namespace BankSim.Api.Controllers
@@ -29,8 +34,16 @@ namespace BankSim.Api.Controllers
         /// </summary>
         private readonly IStatementService _statementService;
 
-
+        /// <summary>
+        /// The account factory service
+        /// </summary>
         private readonly IAccountFactoryService _accountFactoryService;
+
+        /// <summary>
+        /// The cluster client
+        /// </summary>
+        private readonly IClusterClient _clusterClient;
+
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AccountsController"/> class.
@@ -38,11 +51,16 @@ namespace BankSim.Api.Controllers
         /// <param name="accountStore">The account store.</param>
         /// <param name="statementService">The statement service.</param>
         /// <param name="accountFactoryService">The account factory service.</param>
-        public AccountsController(IAccountStore accountStore, IStatementService statementService, IAccountFactoryService accountFactoryService)
+        /// <param name="clusterClient">The cluster client.</param>
+        public AccountsController(IAccountStore accountStore,
+            IStatementService statementService,
+            IAccountFactoryService accountFactoryService,
+            IClusterClient clusterClient)
         {
             _accountStore = accountStore;
             _statementService = statementService;
             _accountFactoryService = accountFactoryService;
+            _clusterClient = clusterClient;
         }
 
         /// <summary>
@@ -100,12 +118,18 @@ namespace BankSim.Api.Controllers
         [ProducesResponseType(400)] 
         [ProducesResponseType(404)] 
         [ProducesResponseType(500)] 
-        public ActionResult<ApiResult<string>> AddAccount(AccountRequestDto dto, AccountTypesEnum accountType)
+        public async Task<ActionResult<ApiResult<string>>> AddAccount(AccountRequestDto dto, AccountTypesEnum accountType)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
+            
+            Guid accountGrainId = Guid.NewGuid();
+            IAccountGrain account =  _clusterClient.GetGrain<IAccountGrain>(accountGrainId);
+            await account.Deposit(dto.Balance.Amount, dto.Balance.Currency);
 
+            await using NatsClient client = new NatsClient();
 
+            await client.PublishAsync<string>(subject: $"users.{await account.GetOwner()}", data: $"Balance: {await account.GetBalance()}, Owner: {await account.GetOwner()}");
 
             _accountStore.Add(_accountFactoryService.AccountFactory(dto.Owner, dto.Balance.Amount, (int) dto.Balance.Currency, (int) accountType));
             return Ok(ApiResult<string>.Ok("Adding account is success!", HttpContext.TraceIdentifier));

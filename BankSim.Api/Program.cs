@@ -3,6 +3,7 @@ using BankSim.Domain.Account;
 using BankSim.Domain.Services;
 using BankSim.Infrastructure.Persistence;
 using Microsoft.Data.SqlClient;
+using Orleans.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +23,17 @@ builder.Services.AddSingleton<ITransferService, TransferService>();
 builder.Services.AddSingleton<IAccountFactoryService, AccountFactoryService>();
 builder.Services.AddSingleton<IAccountStore>(sp => new InSqlServerStore(connectionString));
 builder.Services.AddControllers();
+
+builder.Host.UseOrleansClient((context, client) =>
+{
+    client.UseLocalhostClustering();
+
+    client.Configure<ClusterOptions>(configureOptions: option =>
+    {
+        option.ClusterId = "Banksim.OrleansHost";
+        option.ServiceId = "Banksim.ServiceId";
+    });
+});
 
 var app = builder.Build();
 
