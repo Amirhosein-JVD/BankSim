@@ -4,12 +4,12 @@
         <name>Banksim.Consumer</name>
     </assembly>
     <members>
-        <member name="T:Program">
+        <member name="T:Banksim.Consumer.Program">
             <summary>
             This is consumer
             </summary>
         </member>
-        <member name="M:Program.Main(System.String[])">
+        <member name="M:Banksim.Consumer.Program.Main(System.String[])">
             <summary>
             Defines the entry point of the application.
             </summary>
