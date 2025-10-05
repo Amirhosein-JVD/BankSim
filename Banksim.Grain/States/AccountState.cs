@@ -1,10 +1,5 @@
 ﻿using BankSim.Domain.Transaction;
 using BankSim.Domain.ValueObjects;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Banksim.Grain.States
 {
@@ -27,7 +22,7 @@ namespace Banksim.Grain.States
         /// <value>
         /// The balance.
         /// </value>
-        public Money Balance { get; set; } = new Money { Amount= 0 , Currency= Currency.USD};
+        public Money Balance { get; private set; } = new Money { Amount = 0, Currency = Currency.USD };
 
         /// <summary>
         /// Gets or sets the transactions.
@@ -35,7 +30,7 @@ namespace Banksim.Grain.States
         /// <value>
         /// The transactions.
         /// </value>
-        public List<Transaction> Transactions { get; set; } = new List<Transaction>();
+        public List<Transaction> Transactions { get ;private set; } = [];
 
         /// <summary>
         /// Gets or sets the type of the account.
@@ -44,5 +39,17 @@ namespace Banksim.Grain.States
         /// The type of the account.
         /// </value>
         public string AccountType { get; set; } = "Checking";
+        
+        /// <summary>
+        /// Updates the balance.
+        /// </summary>
+        /// <param name="newBalance">The new balance.</param>
+        public void UpdateBalance(Money newBalance) => Balance = newBalance;
+        
+        /// <summary>
+        /// Adds the transaction.
+        /// </summary>
+        /// <param name="transaction">The transaction.</param>
+        public void AddTransaction(Transaction transaction) => Transactions.Add(transaction);
     }
 }

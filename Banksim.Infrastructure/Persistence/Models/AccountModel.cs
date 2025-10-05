@@ -10,25 +10,25 @@ public class AccountModel
     /// <summary>
     /// Id
     /// </summary>
-    public Guid Id { get; }
+    public Guid Id { get; init; }
 
     /// <summary>
     /// Owner
     /// </summary>
-    public required string Owner {  get; set; }
+    public required string Owner {  get; init; }
 
     /// <summary>
     /// Balance Amount
     /// </summary>
-    public decimal BalanceAmount { get; set; }
+    public decimal BalanceAmount { get; init; }
 
     /// <summary>
     /// Balance Currency
     /// </summary>
-    public int BalanceCurrency { get; set; }
+    public int BalanceCurrency { get; init; }
 
     /// <summary>
     /// Account Type
     /// </summary>
-    public required string AccountType { get; set; }
+    public required string AccountType { get; init; }
 }

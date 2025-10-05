@@ -1,8 +1,8 @@
-﻿using Banksim.Grain.Abstractions;
-using Banksim.Grain.States;
+﻿using BankSim.Domain.Exceptions;
+using BankSim.Domain.Transaction;
 using BankSim.Domain.ValueObjects;
-using BankSim.Domain.Exceptions;
-using Orleans;
+using Banksim.Grain.Abstractions;
+using Banksim.Grain.States;
 
 namespace Banksim.Grain.Accounts
 {
@@ -21,68 +21,48 @@ namespace Banksim.Grain.Accounts
         /// </summary>
         public AccountGrain()
         {
-             _state = new AccountState();
+            _state = new AccountState();
         }
 
-
-
-        /// <summary>
-        /// Called when [activate asynchronous].
-        /// </summary>
-        public override async Task OnActivateAsync(CancellationToken cancellationToken = default)
+        /// <inheritdoc />
+        public override async Task OnActivateAsync(CancellationToken cancellationToken)
         {
             if (string.IsNullOrEmpty(_state.Owner))
             {
                 _state.Owner = $"Customer-{this.GetPrimaryKey()}";
-                _state.Balance = new Money { Amount= 0, Currency = Currency.USD };
+                _state.UpdateBalance(new Money { Amount = 0, Currency = Currency.USD });
             }
+
             await base.OnActivateAsync(cancellationToken);
         }
 
-        /// <summary>
-        /// Deposits the specified amount.
-        /// </summary>
-        /// <param name="amount">The amount.</param>
-        /// <param name="currency">The currency.</param>
-        /// <param name="description">The description.</param>
-        public async Task Deposit(decimal amount, Currency currency ,string description = "")
+        /// <inheritdoc />
+        public async Task Deposit(decimal amount, Currency currency, string description = "")
         {
-            _state.Balance = _state.Balance.Add(new Money(amount, currency));
-            _state.Transactions.Add(new BankSim.Domain.Transaction.Transaction(new Money(amount, currency), description, BankSim.Domain.Transaction.TransactionType.Deposit));
+            var depositMoney = new Money(amount, currency);
+            _state.UpdateBalance(_state.Balance.Add(depositMoney));
+            _state.AddTransaction(new Transaction(depositMoney, description, TransactionType.Deposit));
             await Task.CompletedTask;
         }
 
-        /// <summary>
-        /// Gets the balance.
-        /// </summary>
-        /// <returns></returns>
-        /// <exception cref="System.NotImplementedException"></exception>
+        /// <inheritdoc />
         public Task<decimal> GetBalance() => Task.FromResult(_state.Balance.Amount);
 
-        /// <summary>
-        /// Gets the owner.
-        /// </summary>
-        /// <returns></returns>
-        /// <exception cref="System.NotImplementedException"></exception>
+        /// <inheritdoc />
         public Task<string> GetOwner() => Task.FromResult(_state.Owner);
 
-        /// <summary>
-        /// Withdraws the specified amount.
-        /// </summary>
-        /// <param name="amount">The amount.</param>
-        /// <param name="currency">The currency.</param>
-        /// <param name="description">The description.</param>
-        /// <exception cref="BankSim.Domain.Exceptions.InsufficientFundsException"></exception>
+        /// <inheritdoc />
         public async Task Withdraw(decimal amount, Currency currency, string description = "")
         {
-            if (_state.Balance.Amount - amount < 0)
+            if (_state.Balance.Amount < amount)
             {
                 throw new InsufficientFundsException();
             }
-            _state.Balance = _state.Balance.Subtract(new Money(amount, currency));
-            _state.Transactions.Add(new BankSim.Domain.Transaction.Transaction(new Money(amount, currency), description, BankSim.Domain.Transaction.TransactionType.Withdrawal));
-             await Task.CompletedTask;
+
+            var withdrawalMoney = new Money(amount, currency);
+            _state.UpdateBalance(_state.Balance.Subtract(withdrawalMoney));
+            _state.AddTransaction(new Transaction(withdrawalMoney, description, TransactionType.Withdrawal));
+            await Task.CompletedTask;
         }
-        
     }
 }

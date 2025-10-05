@@ -7,33 +7,45 @@ using Orleans.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var connectionString = "Server=(localdb)\\MSSQLLocalDB;Database=BankSim;Trusted_Connection=True;TrustServerCertificate=True;";
+builder.Configuration.AddConfiguration(new ConfigurationBuilder()
+    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+    .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true)
+    .AddEnvironmentVariables()
+    .Build());
 
-using var connection = new SqlConnection(connectionString);
-connection.Open();
+builder.Services.AddTransient<SqlConnectionStringBuilder>(_ =>
+    new SqlConnectionStringBuilder(builder.Configuration.GetConnectionString("BankSimDb")));
 
-DatabaseInitializer.EnsureTableIsCreated(connection);
+builder.Services.AddSingleton<IStatementService, StatementService>();
+builder.Services.AddSingleton<ITransferService, TransferService>();
+builder.Services.AddSingleton<IAccountFactoryService, AccountFactoryService>();
+builder.Services.AddSingleton<IAccountStore, InSqlServerStore>();
 
 // Add Swagger/OpenAPI services
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddSingleton<IStatementService, StatementService>();
-//builder.Services.AddSingleton<IAccountStore, InMemoryAccountStore>();
-builder.Services.AddSingleton<ITransferService, TransferService>();
-builder.Services.AddSingleton<IAccountFactoryService, AccountFactoryService>();
-builder.Services.AddSingleton<IAccountStore>(sp => new InSqlServerStore(connectionString));
+
 builder.Services.AddControllers();
 
-builder.Host.UseOrleansClient((context, client) =>
+
+builder.Host.UseOrleansClient((_, client) =>
 {
+    var clusterId = builder.Configuration["Orleans:ClusterId"];
+    var serviceId = builder.Configuration["Orleans:ServiceId"];
+
     client.UseLocalhostClustering();
 
-    client.Configure<ClusterOptions>(configureOptions: option =>
+    client.Configure<ClusterOptions>(configureOptions =>
     {
-        option.ClusterId = "Banksim.OrleansHost";
-        option.ServiceId = "Banksim.ServiceId";
+        configureOptions.ClusterId = clusterId;
+        configureOptions.ServiceId = serviceId;
     });
 });
+
+
+var connectionString = builder.Configuration.GetConnectionString("BankSimDb");
+var connection = new SqlConnection(connectionString);
+DatabaseInitializer.EnsureTableIsCreated(connection);
 
 var app = builder.Build();
 

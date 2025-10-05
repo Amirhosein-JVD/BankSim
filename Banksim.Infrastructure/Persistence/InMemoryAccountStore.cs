@@ -24,23 +24,15 @@ public class InMemoryAccountStore : IAccountStore
     /// <inheritdoc />
     public AccountBase Get(Guid id)
     {
-        if (!_accounts.TryGetValue(id, out var acc))
-            throw new KeyNotFoundException($"Account {id} not found.");
-        return acc;
+        return !_accounts.TryGetValue(id, out var acc) ? throw new KeyNotFoundException($"Account {id} not found.") : acc;
     }
 
     /// <inheritdoc />
     public IReadOnlyList<AccountBase> GetAll() => _accounts.Values.ToList();
 
-    /// <summary>
-    /// transfer in memory
-    /// </summary>
-    /// <param name="from"></param>
-    /// <param name="to"></param>
-    /// <param name="amount"></param>
-    /// <param name="description"></param>
-    /// <exception cref="Exception"></exception>
-    public void Transfer(Guid from, Guid to, Money amount, string description = "")
+
+    /// <inheritdoc />
+    public void Transfer(Guid from, Guid to, Money amount)
     {
         throw new Exception("You must use domain transfer service!");
     }
