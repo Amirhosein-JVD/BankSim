@@ -12,11 +12,11 @@ public interface IMapperAccount
     /// <summary>
     /// This function convert database object to the domain object
     /// </summary>
-    abstract static AccountBase ToDomain(AccountModel account);
+    static abstract AccountBase ToDomain(AccountModel account);
     
     /// <summary>
     /// this function convert domain object to database object
     /// </summary>
     /// <returns></returns>
-    abstract static AccountModel ToDatabaseModel(AccountBase account);
+    static abstract AccountModel ToDatabaseModel(AccountBase account);
 }
