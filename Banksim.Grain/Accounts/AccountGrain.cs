@@ -24,10 +24,7 @@ namespace Banksim.Grain.Accounts
             _state = new AccountState();
         }
 
-
-        /// <summary>
-        /// Called when [activate asynchronous].
-        /// </summary>
+        /// <inheritdoc />
         public override async Task OnActivateAsync(CancellationToken cancellationToken)
         {
             if (string.IsNullOrEmpty(_state.Owner))
@@ -39,12 +36,7 @@ namespace Banksim.Grain.Accounts
             await base.OnActivateAsync(cancellationToken);
         }
 
-        /// <summary>
-        /// Deposits the specified amount.
-        /// </summary>
-        /// <param name="amount">The amount.</param>
-        /// <param name="currency">The currency.</param>
-        /// <param name="description">The description.</param>
+        /// <inheritdoc />
         public async Task Deposit(decimal amount, Currency currency, string description = "")
         {
             var depositMoney = new Money(amount, currency);
@@ -53,27 +45,13 @@ namespace Banksim.Grain.Accounts
             await Task.CompletedTask;
         }
 
-        /// <summary>
-        /// Gets the balance.
-        /// </summary>
-        /// <returns></returns>
-        /// <exception cref="System.NotImplementedException"></exception>
+        /// <inheritdoc />
         public Task<decimal> GetBalance() => Task.FromResult(_state.Balance.Amount);
 
-        /// <summary>
-        /// Gets the owner.
-        /// </summary>
-        /// <returns></returns>
-        /// <exception cref="System.NotImplementedException"></exception>
+        /// <inheritdoc />
         public Task<string> GetOwner() => Task.FromResult(_state.Owner);
 
-        /// <summary>
-        /// Withdraws the specified amount.
-        /// </summary>
-        /// <param name="amount">The amount.</param>
-        /// <param name="currency">The currency.</param>
-        /// <param name="description">The description.</param>
-        /// <exception cref="BankSim.Domain.Exceptions.InsufficientFundsException"></exception>
+        /// <inheritdoc />
         public async Task Withdraw(decimal amount, Currency currency, string description = "")
         {
             if (_state.Balance.Amount < amount)
