@@ -53,7 +53,7 @@ namespace BankSim.Api.Controllers
             var accountTo = _accountStore.Get(dto.To);
 
             //_transferService.Transfer(accountFrom, accountTo, dto.Amount, dto.Description);
-            _accountStore.Transfer(dto.From, dto.To, dto.Amount, dto.Description);
+            _accountStore.Transfer(dto.From, dto.To, dto.Amount);
 
             return Ok(ApiResult<string>.Ok("transfer is succesfully done!", HttpContext.TraceIdentifier));
    
