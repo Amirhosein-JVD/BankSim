@@ -1,13 +1,12 @@
 ﻿using BankSim.Domain.Abstractions;
-using BankSim.Infrastructure.Persistence;
-using Dapper;
-using Microsoft.Data.SqlClient;
-using System.ComponentModel.DataAnnotations;
 using BankSim.Domain.ValueObjects;
-using BankSim.Domain.Account;
-using BankSim.Domain.Exceptions;
 using BankSim.Infrastructure.Persistence.Mapper;
 using BankSim.Infrastructure.Persistence.Models;
+using BankSim.Infrastructure.Persistence.Services;
+using Dapper;
+using Microsoft.Data.SqlClient;
+
+namespace BankSim.Infrastructure.Persistence;
 
 /// <summary>
 /// sql server
@@ -19,19 +18,19 @@ public class InSqlServerStore : IAccountStore, ITransferDatabaseService
     /// <summary>
     /// sql server constructor
     /// </summary>
-    /// <param name="connectionString"></param>
+    /// <param name="connectionString">The connection string to the SQL Server database.</param>
     public InSqlServerStore(string connectionString) => _connectionString = connectionString;
 
     /// <summary>
     /// add account to Users table
     /// </summary>
-    /// <param name="account"></param>
-    /// <exception cref="NotImplementedException"></exception>
+    /// <param name="account">The account to add.</param>
+    /// <exception cref="NotImplementedException">Throws if the method is not implemented.</exception>
     public void Add(AccountBase account)
     {
         using var connection = new SqlConnection(_connectionString);
 
-        AccountModel accountDatabase = MapperAccount.ToDatabaseModel(account);
+        var accountDatabase = MapperAccount.ToDatabaseModel(account);
 
         connection.Execute(@"INSERT INTO Accounts (Owner, BalanceAmount, BalanceCurrency, AccountType)
             VALUES (@Owner, @BalanceAmount, @BalanceCurrency, @AccountType)", accountDatabase);
@@ -40,59 +39,53 @@ public class InSqlServerStore : IAccountStore, ITransferDatabaseService
     /// <summary>
     /// get account in Users table by id
     /// </summary>
-    /// <param name="id"></param>
-    /// <returns></returns>
-    /// <exception cref="NotImplementedException"></exception>
+    /// <param name="id">The unique identifier of the account to retrieve.</param>
+    /// <returns>The account with the specified id.</returns>
+    /// <exception cref="NotImplementedException">Throws if the method is not implemented.</exception
     public AccountBase Get(Guid id)
     {
         using var connection = new SqlConnection(_connectionString);
-        var account =  connection.QueryFirst<AccountModel>(@"SELECT * FROM Accounts WHERE Id= @Id", new {Id = id});
+        var account = connection.QueryFirst<AccountModel>(@"SELECT * FROM Accounts WHERE Id= @Id", new { Id = id });
         return MapperAccount.ToDomain(account);
-    
     }
 
     /// <summary>
     /// Get all accounts existing in Users table
     /// </summary>
-    /// <returns></returns>
-    /// <exception cref="NotImplementedException"></exception>
+    /// <returns>List of accounts</returns>
+    /// <exception cref="NotImplementedException">Throws if the method is not implemented.</exception
     public IReadOnlyList<AccountBase> GetAll()
     {
         using var connection = new SqlConnection(_connectionString);
 
         var accounts = connection.Query<AccountModel>(@"SELECT * FROM Accounts");
 
-        List<AccountBase> result = new List<AccountBase> ();
-
-        foreach (var account in accounts) 
-        {
-            result.Add(MapperAccount.ToDomain(account));
-        }
-        return result;
+        return accounts.Select(MapperAccount.ToDomain).ToList();
     }
 
-    /// <summary>
-    /// This is transfer for database
-    /// </summary>
-    public void Transfer(Guid from, Guid to, Money amount, string description="")
+    /// <inheritdoc />
+    public void Transfer(Guid from, Guid to, Money amount)
     {
         using var connection = new SqlConnection(_connectionString);
+        using var transaction = connection.BeginTransaction();
 
-        Money money = new Money(amount.Amount, (Currency)amount.Currency);
+        try
+        {
+            var fromAccount = Get(from);
+            var toAccount = Get(to);
 
-        var fromAccount = Get(from);
-        var toAccount = Get(to);
-        connection.Execute(@"UPDATE Accounts SET BalanceAmount= @BalanceAmount WHERE Id = @Id", 
-            new
-            {
-                BalanceAmount = fromAccount.Balance.Amount - money.Amount,
-                Id= from
-            });
-        connection.Execute(@"UPDATE Accounts SET BalanceAmount= @BalanceAmount WHERE Id = @Id",
-           new
-           {
-               BalanceAmount = toAccount.Balance.Amount + money.Amount,
-               Id= to
-           });
+            connection.Execute(@"UPDATE Accounts SET BalanceAmount = @BalanceAmount WHERE Id = @Id", 
+                new { BalanceAmount = fromAccount.Balance.Amount - amount.Amount, Id = from }, transaction);
+
+            connection.Execute(@"UPDATE Accounts SET BalanceAmount = @BalanceAmount WHERE Id = @Id", 
+                new { BalanceAmount = toAccount.Balance.Amount + amount.Amount, Id = to }, transaction);
+
+            transaction.Commit();
+        }
+        catch
+        {
+            transaction.Rollback();
+            throw;
+        }
     }
 }
