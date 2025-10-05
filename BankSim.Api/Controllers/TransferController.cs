@@ -49,13 +49,10 @@ namespace BankSim.Api.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ApiResult<string>.Fail("Model isn't valid", HttpContext.TraceIdentifier));
 
-            var accountFrom = _accountStore.Get(dto.From);
-            var accountTo = _accountStore.Get(dto.To);
-
             //_transferService.Transfer(accountFrom, accountTo, dto.Amount, dto.Description);
             _accountStore.Transfer(dto.From, dto.To, dto.Amount);
 
-            return Ok(ApiResult<string>.Ok("transfer is succesfully done!", HttpContext.TraceIdentifier));
+            return Ok(ApiResult<string>.Ok("transfer is successfully done!", HttpContext.TraceIdentifier));
    
         }
     }
