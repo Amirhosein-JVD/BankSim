@@ -1,20 +1,22 @@
-﻿
-using Dapper;
+﻿using Dapper;
 using System.Data;
 
-/// <summary>
-/// Database Initializer
-/// </summary>
-public static class DatabaseInitializer
+namespace BankSim.Infrastructure.Persistence
 {
+
     /// <summary>
-    /// creating tables
+    /// Database Initializer
     /// </summary>
-    /// <param name="connection"></param>
-    public static void EnsureTableIsCreated(IDbConnection connection)
+    public static class DatabaseInitializer
     {
-       
-        var createAccounts = @"
+        /// <summary>
+        /// creating tables
+        /// </summary>
+        /// <param name="connection"></param>
+        public static void EnsureTableIsCreated(IDbConnection connection)
+        {
+
+            var createAccounts = @"
             IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='Accounts' AND xtype='U')
             CREATE TABLE Accounts (
                 Id UNIQUEIDENTIFIER NOT NULL PRIMARY KEY DEFAULT NEWID(),
@@ -24,6 +26,7 @@ public static class DatabaseInitializer
                 AccountType NVARCHAR(50) NOT NULL
         );";
 
-        connection.Execute(createAccounts);
+            connection.Execute(createAccounts);
+        }
     }
 }

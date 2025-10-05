@@ -1,24 +1,28 @@
 ﻿using NATS.Client.Core;
 using NATS.Net;
 
-/// <summary>
-/// This is consumer
-/// </summary>
-public class Program
+namespace Banksim.Consumer
 {
+
     /// <summary>
-    /// Defines the entry point of the application.
+    /// This is consumer
     /// </summary>
-    /// <param name="args">The arguments.</param>
-    public static async Task Main(string[] args)
+    public class Program
     {
-        await using NatsClient client = new NatsClient();
-        Console.WriteLine("Listening for user entity changes: ");
-        while(true)
+        /// <summary>
+        /// Defines the entry point of the application.
+        /// </summary>
+        /// <param name="args">The arguments.</param>
+        public static async Task Main(string[] args)
         {
-            await foreach (NatsMsg<string> msg in client.SubscribeAsync<string>(subject:"users.>"))
+            await using NatsClient client = new NatsClient();
+            Console.WriteLine("Listening for user entity changes: ");
+            while (true)
             {
-                Console.WriteLine($"Message: {msg.Data} on subject: {msg.Subject}");
+                await foreach (NatsMsg<string> msg in client.SubscribeAsync<string>(subject: "users.>"))
+                {
+                    Console.WriteLine($"Message: {msg.Data} on subject: {msg.Subject}");
+                }
             }
         }
     }

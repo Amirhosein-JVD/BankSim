@@ -4,12 +4,12 @@
         <name>BankSim.Infrastructure</name>
     </assembly>
     <members>
-        <member name="T:DatabaseInitializer">
+        <member name="T:BankSim.Infrastructure.Persistence.DatabaseInitializer">
             <summary>
             Database Initializer
             </summary>
         </member>
-        <member name="M:DatabaseInitializer.EnsureTableIsCreated(System.Data.IDbConnection)">
+        <member name="M:BankSim.Infrastructure.Persistence.DatabaseInitializer.EnsureTableIsCreated(System.Data.IDbConnection)">
             <summary>
             creating tables
             </summary>
