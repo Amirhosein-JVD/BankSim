@@ -1,13 +1,12 @@
 ﻿using BankSim.Domain.Abstractions;
 using BankSim.Domain.ValueObjects;
-using BankSim.Infrastructure.Persistence.Services;
 
 namespace BankSim.Infrastructure.Persistence;
 
 /// <summary>
 /// The InMemoryAccountStore class provides an in-memory implementation of the IAccountStore interface.
 /// </summary>
-public class InMemoryAccountStore : IAccountStore, ITransferDatabaseService
+public class InMemoryAccountStore : IAccountStore
 {
     private readonly Dictionary<Guid, AccountBase> _accounts = new();
 
@@ -25,9 +24,7 @@ public class InMemoryAccountStore : IAccountStore, ITransferDatabaseService
     /// <inheritdoc />
     public AccountBase Get(Guid id)
     {
-        if (!_accounts.TryGetValue(id, out var acc))
-            throw new KeyNotFoundException($"Account {id} not found.");
-        return acc;
+        return !_accounts.TryGetValue(id, out var acc) ? throw new KeyNotFoundException($"Account {id} not found.") : acc;
     }
 
     /// <inheritdoc />

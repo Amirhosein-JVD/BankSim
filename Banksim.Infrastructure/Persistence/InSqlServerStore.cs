@@ -2,7 +2,6 @@
 using BankSim.Domain.ValueObjects;
 using BankSim.Infrastructure.Persistence.Mapper;
 using BankSim.Infrastructure.Persistence.Models;
-using BankSim.Infrastructure.Persistence.Services;
 using Dapper;
 using Microsoft.Data.SqlClient;
 
@@ -11,15 +10,18 @@ namespace BankSim.Infrastructure.Persistence;
 /// <summary>
 /// sql server
 /// </summary>
-public class InSqlServerStore : IAccountStore, ITransferDatabaseService
+public class InSqlServerStore : IAccountStore
 {
     private readonly string _connectionString;
 
     /// <summary>
     /// sql server constructor
     /// </summary>
-    /// <param name="connectionString">The connection string to the SQL Server database.</param>
-    public InSqlServerStore(string connectionString) => _connectionString = connectionString;
+    /// <param name="connectionStringBuilder">The SQL connection string builder.</param>
+    public InSqlServerStore(SqlConnectionStringBuilder connectionStringBuilder)
+    {
+        _connectionString = connectionStringBuilder.ConnectionString;
+    }
 
     /// <summary>
     /// add account to Users table
@@ -74,10 +76,10 @@ public class InSqlServerStore : IAccountStore, ITransferDatabaseService
             var fromAccount = Get(from);
             var toAccount = Get(to);
 
-            connection.Execute(@"UPDATE Accounts SET BalanceAmount = @BalanceAmount WHERE Id = @Id", 
+            connection.Execute(@"UPDATE Accounts SET BalanceAmount = @BalanceAmount WHERE Id = @Id",
                 new { BalanceAmount = fromAccount.Balance.Amount - amount.Amount, Id = from }, transaction);
 
-            connection.Execute(@"UPDATE Accounts SET BalanceAmount = @BalanceAmount WHERE Id = @Id", 
+            connection.Execute(@"UPDATE Accounts SET BalanceAmount = @BalanceAmount WHERE Id = @Id",
                 new { BalanceAmount = toAccount.Balance.Amount + amount.Amount, Id = to }, transaction);
 
             transaction.Commit();

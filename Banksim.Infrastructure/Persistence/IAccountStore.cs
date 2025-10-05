@@ -1,13 +1,12 @@
 ﻿using BankSim.Domain.Abstractions;
 using BankSim.Domain.ValueObjects;
-using BankSim.Infrastructure.Persistence.Services;
 
 namespace BankSim.Infrastructure.Persistence;
 
 /// <summary>
 /// The IAccountStore interface defines methods for managing and retrieving bank account information.
 /// </summary>
-public interface IAccountStore : ITransferDatabaseService
+public interface IAccountStore
 {
     /// <summary>
     /// The Get method retrieves an account by its unique identifier.
@@ -27,4 +26,12 @@ public interface IAccountStore : ITransferDatabaseService
     /// </summary>
     /// <returns>A read-only list of all accounts.</returns>
     IReadOnlyList<AccountBase> GetAll();
+
+    /// <summary>
+    /// Transfer for database
+    /// </summary>
+    /// <param name="from">From account id</param>
+    /// <param name="to">To account id</param>
+    /// <param name="amount">Amount to transfer</param>
+    public void Transfer(Guid from, Guid to, Money amount);
 }
