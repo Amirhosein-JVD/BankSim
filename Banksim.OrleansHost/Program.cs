@@ -3,11 +3,10 @@ using Orleans.Configuration;
 
 namespace Banksim.OrleansHost
 {
-
     /// <summary>
     /// This is palace that we run silo server 
     /// </summary>
-    public class Program
+    public static class Program
     {
         /// <summary>
         /// Defines the entry point of the application.
@@ -15,18 +14,25 @@ namespace Banksim.OrleansHost
         /// <param name="args">The arguments.</param>
         public static async Task Main(string[] args)
         {
-            await Host.CreateDefaultBuilder(args)
-                .UseOrleans(siloBuilder =>
-                {
-                    siloBuilder.UseLocalhostClustering()
-                    .AddMemoryGrainStorage("accountState");
-
-                    siloBuilder.Configure<ClusterOptions>(configureOptions: option =>
+            try
+            {
+                await Host.CreateDefaultBuilder(args)
+                    .UseOrleans(siloBuilder =>
                     {
-                        option.ClusterId = "Banksim.OrleansHost";
-                        option.ServiceId = "Banksim.ServiceId";
-                    });
-                }).RunConsoleAsync();
+                        siloBuilder.UseLocalhostClustering()
+                            .AddMemoryGrainStorage("accountState");
+
+                        siloBuilder.Configure<ClusterOptions>(clusterOptions =>
+                        {
+                            clusterOptions.ClusterId = "Banksim.OrleansHost";
+                            clusterOptions.ServiceId = "Banksim.ServiceId";
+                        });
+                    }).RunConsoleAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error starting Orleans host: {ex.Message}");
+            }
         }
     }
 }
