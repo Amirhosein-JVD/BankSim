@@ -19,13 +19,24 @@
             The statement service
             </summary>
         </member>
-        <member name="M:BankSim.Api.Controllers.AccountsController.#ctor(BankSim.Infrastructure.Persistence.IAccountStore,BankSim.Domain.Services.IStatementService,BankSim.Domain.Account.IAccountFactoryService)">
+        <member name="F:BankSim.Api.Controllers.AccountsController._accountFactoryService">
+            <summary>
+            The account factory service
+            </summary>
+        </member>
+        <member name="F:BankSim.Api.Controllers.AccountsController._clusterClient">
+            <summary>
+            The cluster client
+            </summary>
+        </member>
+        <member name="M:BankSim.Api.Controllers.AccountsController.#ctor(BankSim.Infrastructure.Persistence.IAccountStore,BankSim.Domain.Services.IStatementService,BankSim.Domain.Account.IAccountFactoryService,Orleans.IClusterClient)">
             <summary>
             Initializes a new instance of the <see cref="T:BankSim.Api.Controllers.AccountsController"/> class.
             </summary>
             <param name="accountStore">The account store.</param>
             <param name="statementService">The statement service.</param>
             <param name="accountFactoryService">The account factory service.</param>
+            <param name="clusterClient">The cluster client.</param>
         </member>
         <member name="M:BankSim.Api.Controllers.AccountsController.GetAllAccounts">
             <summary>
